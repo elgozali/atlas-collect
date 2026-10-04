@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { transactionsApi } from "../services";
-import type { CheckoutValues } from "../types";
+import { transactionsApi } from "../services/transactionsService";
+import type { CheckoutValues } from "../types/CheckoutValues";
 
 export function usePayment(id: string) {
   const client = useQueryClient();

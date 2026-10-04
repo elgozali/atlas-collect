@@ -1,0 +1,19 @@
+.protection {
+  display: flex;
+  gap: 12px;
+  margin: 22px 0;
+  align-items: flex-start;
+}
+.protection > svg {
+  font-size: 23px;
+  color: var(--green);
+}
+.protection b {
+  font-size: 12px;
+}
+.protection p {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 5px 0;
+  line-height: 1.7;
+}

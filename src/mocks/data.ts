@@ -1,4 +1,4 @@
-import type { Listing } from "../features/listings/types";
+import type { Listing } from "../features/listings";
 
 export const seeds: Listing[] = [
   {

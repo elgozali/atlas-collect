@@ -1,4 +1,4 @@
-import type { Listing } from "../../listings/types";
+import type { Listing } from "../../listings";
 
 export type CreateListingInput = Omit<
   Listing,

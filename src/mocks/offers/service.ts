@@ -1,4 +1,4 @@
-import type { Offer } from "../../features/offers/types";
+import type { Offer } from "../../features/offers";
 import { DomainError } from "../core/errors";
 import { database, persistDatabase } from "../core/database";
 import { snapshot, simulateLatency } from "../core/response";

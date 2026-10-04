@@ -1,5 +1,5 @@
 import { findListing } from "./repository";
-import type { Transaction } from "../../features/transactions/types";
+import type { Transaction } from "../../features/transactions";
 import { database, persistDatabase } from "../core/database";
 import { snapshot, simulateLatency } from "../core/response";
 import { reserveListing } from "../transactions/reservations";

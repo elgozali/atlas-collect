@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { auctionsApi } from "../services";
+import { auctionsApi } from "../services/auctionsService";
 
 export const useAuction = (id: string) =>
   useQuery({

@@ -1,0 +1,25 @@
+.notificationDrawer {
+  width: 380px;
+  max-width: 100vw;
+  padding: 25px;
+}
+.notificationDrawer h2 {
+  font-size: 25px;
+}
+.notificationDrawer > a {
+  display: block;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+  padding: 25px 25px 20px 0;
+  font-size: 13px;
+}
+.notificationDrawer > a svg {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  font-size: 17px;
+}
+.notificationDrawer p {
+  font-size: 11px;
+  color: var(--muted);
+}

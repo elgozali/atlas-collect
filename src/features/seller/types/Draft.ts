@@ -1,4 +1,4 @@
-import type { Category } from "../../listings/types";
+import type { Category } from "../../listings";
 
 export type Draft = {
   category: Category;

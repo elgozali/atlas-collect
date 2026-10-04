@@ -55,3 +55,12 @@ Sample data stays in the visitor's browser. No production backend or payment pro
 - Mock implementations are split by feature; `mocks/api.ts` is only a compatibility facade. Persistence, realtime and reservations continue to use one authoritative database.
 - Final strict build, formatting and all 18 rule/schema tests pass after the mock split. Native buyer checks cover offer/counter, payment, module-styled confirmation and timeline navigation; fresh-preview auction checks cover extension, closure and winner checkout.
 - Mobile card submission passes through all seven wizard steps at 390 × 844; review waits for an explicit submit, and page width matches the viewport. The notification drawer carries its module scope and retains its 380 px styling within the mobile viewport.
+
+## Component modules and public feature exports
+
+- `_base.scss` and `_responsive.scss` exist only in global styles. Feature modules contain their responsive rules directly; feature/component/layout partial folders are removed.
+- Every shared and feature component has its own folder and matching SCSS Module. JSX uses camelCase module references; conditional and combined classes use `classnames`. There are no literal or template-string `className` attributes or blanket global feature scopes.
+- Nested hook/type/service barrel files are removed. Feature entry points contain explicit exports consumed externally; feature internals import individual files. Shared realtime subscribers continue to use their adapter.
+- Strict production build, formatting, whitespace checks and all 18 rule/schema tests pass.
+- Native browser checks confirm fixed-price offer/counter/payment/confirmation/timeline, auction outbid/extension/closure/winner checkout, and a seven-step mobile card submission. Mobile notification styling remains 380 px within a 390 px viewport. No browser errors appeared.
+- Desktop and mobile styles were visually checked, including 1440 px auction/timeline layouts and the 390 px seller review; page widths match their viewports.

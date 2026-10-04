@@ -1,7 +1,14 @@
+import { basename } from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
+  css: {
+    modules: {
+      generateScopedName: (name, filename) =>
+        `${basename(filename, ".module.scss")}__${name}`,
+    },
+  },
   base: process.env.VITE_BASE_PATH || "/",
   build: {
     rollupOptions: {

@@ -2,7 +2,7 @@
 
 A high-fidelity interactive concept for an authenticated collectibles marketplace. Built for the Greenstone Senior Frontend Engineer assignment, following the agreed product, architecture and eight-experience scope.
 
-**React + TypeScript + Vite + Material UI 9.4.0 + SCSS + React Router + TanStack Query + Zustand + React Hook Form + Zod.**
+**React + TypeScript + Vite + Material UI 9.4.0 + SCSS Modules + classnames + React Router + TanStack Query + Zustand + React Hook Form + Zod.**
 
 ## Run locally
 
@@ -67,7 +67,7 @@ This checkout is prepared locally. Creating a GitHub remote and publishing a pub
 
 ## Architecture and prototype boundaries
 
-All route screens live in `src/pages/` and render views exported by feature `index.ts` entry points. Features own their `components/`, `hooks/` (one file per hook), `types/`, `services/`, and named SCSS module. Shared utilities live in `utils/`, providers in `providers/`, and the shell in `app/layout/`. Mock commands are split by feature under `mocks/`, with persistence, realtime and reservation rules shared.
+All route screens live in `src/pages/` and render views exported by feature `index.ts` entry points. Features own their `components/`, `hooks/` (one file per hook), `types/`, `services/`, and named SCSS module. Components have their own folders and matching SCSS Modules. Each feature module includes its responsive rules; only global styles retain base/responsive partials. JSX uses module references and `classnames` for combinations. Public exports live exclusively in each feature’s main `index.ts`; internal imports reference individual files. Shared utilities live in `utils/`, providers in `providers/`, and the shell in `app/layout/`. Mock commands are split by feature under `mocks/`, with persistence, realtime and reservation rules shared.
 
 See [Architecture](docs/ARCHITECTURE.md), [Demo and QA notes](docs/QA.md), and [Image sources](docs/ASSETS.md).
 

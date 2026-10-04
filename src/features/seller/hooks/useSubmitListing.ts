@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { submitDraft } from "../services";
+import { submitDraft } from "../services/sellerService";
 
 export function useSubmitListing(onSubmitted: () => void) {
   const client = useQueryClient();

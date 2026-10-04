@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { offersApi } from "../services";
-import type { Offer } from "../types";
+import { offersApi } from "../services/offersService";
+import type { Offer } from "../types/Offer";
 import { useEffect } from "react";
 
 export function useSimulatedSellerResponse(

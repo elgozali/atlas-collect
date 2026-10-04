@@ -1,0 +1,266 @@
+.checkoutLayout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 65px;
+  margin-bottom: 70px;
+}
+.checkoutForm {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  background: #fff;
+  border: 1px solid var(--border);
+  padding: 35px;
+  border-radius: 8px;
+}
+.checkoutForm h2 {
+  font-size: 25px;
+  margin: 0;
+}
+.checkoutForm > p {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: -12px;
+}
+.checkoutForm :global(.MuiFormControlLabel-label) {
+  font-size: 12px;
+}
+.paymentProvider {
+  display: flex;
+  gap: 15px;
+  padding: 24px;
+  background: var(--ivory);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.paymentProvider b {
+  font-size: 12px;
+}
+.paymentProvider p {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 6px 0 0;
+}
+.orderSummary {
+  background: #eeefe8;
+  padding: 30px;
+  border-radius: 8px;
+  height: max-content;
+}
+.orderItem {
+  text-align: center;
+  margin-bottom: 26px;
+}
+.orderItem img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 24px;
+}
+.orderItem h3 {
+  font-size: 19px;
+  margin-bottom: 8px;
+}
+.orderItem p {
+  font-size: 12px;
+  color: var(--muted);
+}
+.total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 22px;
+  font-size: 22px;
+}
+.total span {
+  font-size: 14px;
+}
+.confirmation {
+  text-align: center;
+  padding: 85px 0 110px;
+}
+.confirmation > svg {
+  font-size: 65px;
+  color: var(--green);
+  margin-bottom: 30px;
+}
+.confirmation h1 {
+  font-size: 42px;
+  max-width: 600px;
+  margin: 0 auto 25px;
+}
+.confirmation > p:not(:global(.common__eyebrow)) {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.timelineLayout {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 65px;
+  margin-bottom: 70px;
+}
+.timelineCard {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 35px;
+}
+.timelineStep {
+  display: flex;
+  position: relative;
+  gap: 24px;
+  min-height: 96px;
+  padding-bottom: 30px;
+  color: #72796f;
+}
+.timelineStep::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 30px;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+.timelineStep:last-of-type::before {
+  display: none;
+}
+.timelineDot {
+  display: grid;
+  place-items: center;
+  min-width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-size: 11px;
+  background: var(--ivory);
+  z-index: 1;
+}
+.timelineDot svg {
+  font-size: 18px;
+}
+.timelineStep.done .timelineDot {
+  background: #e7eee1;
+  color: var(--green);
+  border-color: #c3ceb9;
+}
+.timelineStep.current .timelineDot {
+  background: var(--green);
+  color: #fff;
+  border-color: var(--green);
+}
+.timelineStep.current h3 {
+  color: var(--ink);
+}
+.timelineStep h3 {
+  font-size: 15px;
+  margin: 5px 0 8px;
+}
+.timelineStep p {
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+.timelineStep.current {
+  color: var(--muted);
+}
+.inspection {
+  background: #eef1e7;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 22px;
+}
+.inspection > b {
+  font-size: 11px;
+}
+.inspection h2 {
+  margin: 12px 0;
+  font-size: 30px;
+  font-variant-numeric: tabular-nums;
+}
+.inspection :global(.common__dialogActions) {
+  margin-bottom: 0;
+}
+.timelineImage {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 24px;
+}
+.orderSummary > p {
+  font-size: 12px;
+  color: var(--muted);
+}
+.issueDetails:global(.MuiTextField-root) {
+  margin-top: 22px;
+}
+@media (max-width: 1100px) {
+  .checkoutLayout {
+    gap: 35px;
+  }
+  .timelineLayout {
+    gap: 35px;
+  }
+}
+@media (max-width: 760px) {
+  .checkoutLayout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-bottom: 40px;
+  }
+  .timelineLayout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-bottom: 40px;
+  }
+  .checkoutForm {
+    padding: 25px 20px;
+    gap: 20px;
+  }
+  .orderSummary {
+    padding: 25px;
+  }
+  .checkoutForm > :global(.MuiButton-root) {
+    white-space: normal;
+    font-size: 12px;
+  }
+  .confirmation {
+    padding: 65px 0;
+  }
+  .confirmation h1 {
+    font-size: 32px;
+  }
+  .timelineCard {
+    padding: 28px 20px;
+  }
+  .timelineStep {
+    gap: 18px;
+  }
+  .timelineStep h3 {
+    font-size: 13px;
+  }
+  .timelineStep p {
+    font-size: 10px;
+  }
+  .inspection {
+    padding: 16px;
+    margin-left: -5px;
+  }
+  .inspection :global(.MuiButton-root) {
+    font-size: 10px;
+  }
+  .timelineLayout > aside {
+    grid-row: 1;
+  }
+  .timelineLayout > aside .orderSummary {
+    display: none;
+  }
+  .timelineLayout > aside :global(.common__demoPanel) {
+    margin: 0;
+  }
+}

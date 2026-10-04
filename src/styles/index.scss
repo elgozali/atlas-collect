@@ -1,7 +1,2 @@
-// Feature styles are loaded once; responsive rules follow the base styles.
-@use "base" as global-base;
-@use "../app/layout/styles/base" as layout-base;
-@use "../components/styles/base" as components-base;
-@use "responsive" as global-responsive;
-@use "../app/layout/styles/responsive" as layout-responsive;
-@use "../components/styles/responsive" as components-responsive;
+@use "base";
+@use "responsive";

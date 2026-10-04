@@ -1,3 +1,5 @@
+import s from "./AppLayout.module.scss";
+import common from "../../styles/common.module.scss";
 import { NotificationsDrawer } from "../../features/notifications";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
@@ -22,7 +24,7 @@ import {
 } from "@mui/icons-material";
 import { subscribeToMarketplace } from "../../shared/realtime/service";
 import { resetDemo } from "../demo";
-import { useNotifications } from "../../features/notifications/hooks";
+import { useNotifications } from "../../features/notifications";
 import { queryClient } from "../../providers/queryClient";
 import { useUI } from "../../shared/store";
 
@@ -60,7 +62,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <a
-        className="skip-link"
+        className={s.skipLink}
         href="#main"
         onClick={(e) => {
           e.preventDefault();
@@ -71,17 +73,17 @@ export function AppLayout({ children }: { children: ReactNode }) {
       >
         Skip to content
       </a>
-      <div className="demo-banner">
+      <div className={s.demoBanner}>
         An interactive concept. Sample collectibles, simulated transactions, no
         real money.
       </div>
-      <header className="site-header">
-        <Link to="/" className="wordmark" aria-label="Atlas Collect home">
+      <header className={s.siteHeader}>
+        <Link to="/" className={s.wordmark} aria-label="Atlas Collect home">
           <span>ATLAS</span>
           <small>COLLECT</small>
         </Link>
         <nav aria-label="Main navigation">{nav}</nav>
-        <div className="header-actions">
+        <div className={s.headerActions}>
           <IconButton aria-label="Search" onClick={() => setSearch(true)}>
             <Search />
           </IconButton>
@@ -97,7 +99,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
             <PersonOutlined />
           </IconButton>
           <IconButton
-            className="menu-toggle"
+            className={s.menuToggle}
             aria-label="Open navigation"
             onClick={() => setMenu(true)}
           >
@@ -105,11 +107,11 @@ export function AppLayout({ children }: { children: ReactNode }) {
           </IconButton>
         </div>
       </header>
-      <main id="main" tabIndex={-1} className="main-shell">
+      <main id="main" tabIndex={-1} className={s.mainShell}>
         {children}
       </main>
-      <footer>
-        <Link to="/" className="footer-brand">
+      <footer className={s.footer}>
+        <Link to="/" className={s.footerBrand}>
           ATLAS COLLECT
         </Link>
         <p>Authenticated collectibles. Transparent value. Confident trading.</p>
@@ -121,7 +123,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
         </div>
       </footer>
       <Drawer anchor="right" open={menu} onClose={() => setMenu(false)}>
-        <div className="mobile-nav">
+        <div className={s.mobileNav}>
           <IconButton
             aria-label="Close navigation"
             onClick={() => setMenu(false)}
@@ -140,7 +142,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
         <DialogTitle>Find something exceptional.</DialogTitle>
         <DialogContent>
           <form
-            className="search-dialog"
+            className={s.searchDialog}
             onSubmit={(e) => {
               e.preventDefault();
               navigate(`/marketplace?q=${encodeURIComponent(term)}`);
@@ -167,7 +169,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
             selections in this browser.
           </p>
           <Alert severity="info">Only prototype data is affected.</Alert>
-          <div className="dialog-actions">
+          <div className={common.dialogActions}>
             <Button
               variant="contained"
               onClick={() => {

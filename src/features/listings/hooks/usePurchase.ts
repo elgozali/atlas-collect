@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { listingsApi } from "../services";
-import type { Transaction } from "../../transactions/types";
+import { listingsApi } from "../services/listingsService";
+import type { Transaction } from "../../transactions";
 
 export function usePurchase(
   id: string,

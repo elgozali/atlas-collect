@@ -1,4 +1,4 @@
-import type { Listing } from "../../features/listings/types";
+import type { Listing } from "../../features/listings";
 import { DomainError } from "../core/errors";
 import { database, persistDatabase } from "../core/database";
 import { snapshot, simulateLatency } from "../core/response";

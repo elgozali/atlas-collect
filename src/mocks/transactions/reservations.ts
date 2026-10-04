@@ -1,5 +1,5 @@
-import type { Transaction } from "../../features/transactions/types";
-import { transactionSteps } from "../../features/transactions/constants/transactionSteps";
+import type { Transaction } from "../../features/transactions";
+import { transactionSteps } from "../../features/transactions";
 import { DomainError } from "../core/errors";
 import { database, persistDatabase } from "../core/database";
 import { snapshot } from "../core/response";

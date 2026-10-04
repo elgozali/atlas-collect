@@ -1,0 +1,79 @@
+.auctionInfo {
+  min-width: 0;
+}
+.auctionLayout h1 {
+  margin-top: 26px;
+  font-size: 38px;
+}
+.auctionPanel {
+  background: #eef0e8;
+  padding: 26px;
+  border: 1px solid #dce2d5;
+  border-radius: 8px;
+  margin: 24px 0;
+}
+.auctionPanel > :global(.common__row) {
+  font-size: 12px;
+  color: var(--muted);
+}
+.auctionPanel :global(.common__price) {
+  margin: 12px 0 24px;
+}
+.auctionClock {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0;
+  border-top: 1px solid #d3d9cd;
+  border-bottom: 1px solid #d3d9cd;
+  margin-bottom: 24px;
+}
+.auctionClock small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+.auctionClock b {
+  display: block;
+  font-size: 32px;
+  letter-spacing: 0.035em;
+  font-variant-numeric: tabular-nums;
+  font-weight: 550;
+}
+.auctionClock > svg {
+  color: var(--green);
+}
+.auctionPanel :global(.MuiAlert-root) {
+  margin-bottom: 18px;
+}
+.auctionPanel form {
+  display: grid;
+  gap: 10px;
+}
+.auctionPanel :global(.common__subtle) {
+  font-size: 10px;
+  margin: 16px 0 0;
+}
+.auctionBottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 65px;
+  margin-bottom: 64px;
+}
+@media (max-width: 760px) {
+  .auctionLayout h1 {
+    font-size: 34px;
+  }
+  .auctionPanel {
+    padding: 22px;
+  }
+  .auctionBottom {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .auctionClock b {
+    font-size: 30px;
+  }
+}

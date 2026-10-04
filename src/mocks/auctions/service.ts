@@ -1,4 +1,4 @@
-import type { Auction } from "../../features/auctions/types";
+import type { Auction } from "../../features/auctions";
 import { DomainError } from "../core/errors";
 import { database, persistDatabase } from "../core/database";
 import { snapshot, simulateLatency } from "../core/response";

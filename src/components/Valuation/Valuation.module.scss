@@ -1,0 +1,75 @@
+.valuation {
+  padding: 24px;
+  background: #eeefe7;
+  border: 1px solid #e0e4d9;
+  border-radius: 8px;
+  margin: 22px 0;
+}
+.valuation > :global(.common__row) {
+  font-size: 12px;
+}
+.confidence {
+  font-size: 8px !important;
+  letter-spacing: 0.07em;
+  color: var(--green);
+}
+.valuation h3 {
+  font-size: 24px;
+  font-weight: 550;
+  margin: 16px 0 25px;
+  font-variant-numeric: tabular-nums;
+}
+.valuation h3 span {
+  font-weight: 400;
+  color: #92998c;
+}
+.range {
+  height: 2px;
+  background: #c7cbbf;
+  position: relative;
+  margin: 12px 0 15px;
+}
+.rangeBand {
+  position: absolute;
+  left: 25%;
+  right: 15%;
+  height: 6px;
+  top: -2px;
+  background: #8e9e7f;
+  border-radius: 2px;
+}
+.rangeMarker {
+  position: absolute;
+  right: 15%;
+  top: -7px;
+  width: 2px;
+  height: 16px;
+  background: var(--green);
+}
+.valuation .muted {
+  font-size: 9px;
+  color: var(--muted);
+}
+.valuation p {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 17px 0 5px;
+}
+.valuation :global(.MuiButton-root) {
+  padding-left: 0;
+  min-height: 30px;
+  font-size: 11px;
+}
+@media (max-width: 760px) {
+  .valuation {
+    padding: 20px;
+  }
+  .valuation h3 {
+    font-size: 23px;
+  }
+}
+@media (max-width: 380px) {
+  .valuation h3 {
+    font-size: 20px;
+  }
+}

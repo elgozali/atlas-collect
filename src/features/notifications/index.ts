@@ -1,3 +1,3 @@
-export { NotificationsDrawer } from "./components/NotificationsDrawer";
-export * from "./hooks";
-export type * from "./types";
+export { NotificationsDrawer } from "./components/NotificationsDrawer/NotificationsDrawer";
+export { useNotifications } from "./hooks/useNotifications";
+export type { Notification } from "./types/Notification";

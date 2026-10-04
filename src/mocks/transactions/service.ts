@@ -1,4 +1,4 @@
-import { transactionSteps } from "../../features/transactions/constants/transactionSteps";
+import { transactionSteps } from "../../features/transactions";
 import { DomainError } from "../core/errors";
 import { database, persistDatabase } from "../core/database";
 import { snapshot, simulateLatency } from "../core/response";

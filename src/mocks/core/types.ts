@@ -1,8 +1,8 @@
-import type { Auction } from "../../features/auctions/types";
-import type { Listing } from "../../features/listings/types";
-import type { Notification } from "../../features/notifications/types";
-import type { Offer } from "../../features/offers/types";
-import type { Transaction } from "../../features/transactions/types";
+import type { Auction } from "../../features/auctions";
+import type { Listing } from "../../features/listings";
+import type { Notification } from "../../features/notifications";
+import type { Offer } from "../../features/offers";
+import type { Transaction } from "../../features/transactions";
 
 export type Database = {
   listings: Listing[];

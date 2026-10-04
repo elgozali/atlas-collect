@@ -1,0 +1,14 @@
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  padding: 45px 0;
+}
+@media (max-width: 760px) {
+  .skeletonGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .skeletonGrid > div:last-child {
+    display: none;
+  }
+}

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { offersApi } from "../services";
-import type { Offer } from "../types";
+import { offersApi } from "../services/offersService";
+import type { Offer } from "../types/Offer";
 
 export function useSubmitOffer(
   listingId: string,

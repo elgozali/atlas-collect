@@ -1,0 +1,147 @@
+.collectible {
+  min-width: 0;
+}
+.cardImage {
+  height: 285px;
+  position: relative;
+  border-radius: 8px;
+  background: #eae8e1;
+  overflow: hidden;
+}
+.cardImage > a {
+  display: block;
+  height: 100%;
+}
+.cardImage img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+.cardImage:hover img {
+  transform: scale(1.035);
+}
+.cardImage:global(.common__cards) {
+  background: #eeeee7;
+}
+.cardImage:global(.common__cards) img {
+  object-fit: contain;
+  padding: 28px;
+}
+.save {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ffffffdf;
+  border-radius: 50%;
+}
+.cardMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: var(--muted);
+  margin: 17px 0 10px;
+  gap: 5px;
+}
+.cardMeta :global(.MuiChip-root) {
+  font-size: 9px;
+}
+.cardMeta :global(.MuiChip-icon) {
+  font-size: 15px;
+}
+.cardTitle {
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+.cardTitle:hover {
+  text-decoration: underline;
+}
+.collectible > :global(.common__subtle) {
+  margin: 4px 0 15px;
+  font-size: 11px;
+}
+.cardPrice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.cardPrice b {
+  font-size: 16px;
+}
+.cardPrice span {
+  font-size: 9px;
+  color: var(--muted);
+}
+.estimate {
+  font-size: 10px;
+  color: var(--muted);
+  margin: 9px 0 0;
+}
+@media (max-width: 1100px) {
+  .cardImage {
+    height: 235px;
+  }
+  .cardMeta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+@media (max-width: 760px) {
+  .cardImage {
+    height: 210px;
+  }
+  .cardImage:global(.common__cards) img {
+    padding: 20px;
+  }
+  .cardTitle {
+    font-size: 12px;
+  }
+  .collectible > :global(.common__subtle) {
+    font-size: 9px;
+  }
+  .cardPrice {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .cardPrice b {
+    font-size: 14px;
+  }
+  .estimate {
+    font-size: 9px;
+  }
+  .cardMeta {
+    margin: 12px 0 8px;
+  }
+  .cardMeta > span {
+    font-size: 9px;
+  }
+  .save {
+    top: 6px;
+    right: 6px;
+  }
+  .save :global(.MuiIconButton-root) {
+    padding: 7px;
+  }
+}
+@media (max-width: 380px) {
+  .cardImage {
+    height: 180px;
+  }
+  .cardMeta :global(.MuiChip-root) {
+    font-size: 8px;
+  }
+}
+.cardImage:global(.common__watches) img {
+  object-fit: contain;
+  padding: 20px;
+}
+
+.cardImage:global(.common__watches) img {
+  mix-blend-mode: multiply;
+}

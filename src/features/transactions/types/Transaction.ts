@@ -1,4 +1,4 @@
-import type { Listing } from "../../listings/types";
+import type { Listing } from "../../listings";
 
 export type Transaction = {
   id: string;

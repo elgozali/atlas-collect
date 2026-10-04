@@ -1,4 +1,4 @@
-import type { Auction } from "../../features/auctions/types";
+import type { Auction } from "../../features/auctions";
 import type { MarketplaceEvent } from "../../shared/realtime/types";
 import { snapshot } from "./response";
 

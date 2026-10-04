@@ -13,10 +13,10 @@
 - `src/features/seller`: category field registry, Zod schemas, seven-step RHF wizard and dashboard.
 - `src/features/transactions`: checkout, confirmation, lifecycle, inspection and disputes.
 - `src/features/notifications`: notification types, service and polling hook.
-- `src/components`: one component per file for verification, valuation, protection, cards, trust details, headings, loading, errors and route recovery.
+- `src/components`: one folder and SCSS Module per component for verification, valuation, protection, cards, trust details, headings, loading, errors and route recovery.
 - `src/utils`: pure asset/currency/date formatters.
 - `src/shared`: the small client UI store and common realtime subscription contract.
-- `src/styles`: global foundations plus shared component/layout styles. Features import their own scoped SCSS modules.
+- `src/styles`: global foundations and a shared utility SCSS Module. Layout, components and features import scoped SCSS Modules.
 - `src/mocks`: feature-specific command/query services, a shared core database/realtime layer and reservation helper, seeded data, and contract tests.
 
 ## Feature boundaries
@@ -27,9 +27,11 @@ All route pages live in `src/pages/`. These thin route components import the fea
 
 Feature client adapters live in `services/` and import their corresponding domain mock service directly. The mock `api.ts` is a small compatibility facade for contract tests, with no command logic inside it. Domain implementations live in `mocks/listings`, `mocks/auctions`, `mocks/offers`, `mocks/transactions`, `mocks/seller`, and `mocks/notifications`. `mocks/core` owns the shared browser database, seed initialization, persistence, response snapshots, simulated latency, errors and event subscriptions. A listing repository and transaction reservation helper keep cross-feature rules consistent without circular service imports.
 
-Each feature imports `featureName.module.scss`. Its local `root` class scopes descendant styles to that feature view. The module loads base/responsive partials inside that scope; existing descendant class names and MUI classes remain stable. Portaled dialogs and drawers receive the same module root so their styles stay scoped after leaving the view's DOM tree. Confirmation, loading and error branches also retain the feature scope. Auction views reuse listing gallery/layout partials inside the auction module's own scope.
+Each feature has one `featureName.module.scss` containing its styles and responsive rules. There are no feature `styles/` folders or base/responsive partials. Components live in their own folders with a matching `ComponentName.module.scss`; reusable components own their complete styling, while feature view modules provide a root container and their feature module owns the experience's styling.
 
-Only foundations, common components and the app layout remain globally styled. Feature modules are imported by their components and loaded with their route bundles. Material UI and icons remain on v9.4.0.
+JSX references module exports directly, such as `className={s.headingRow}`. Multiple and conditional classes use `classnames`. `styles/common.module.scss` owns reused presentation utilities and buyer/auction gallery layout. Only `styles/_base.scss` and `styles/_responsive.scss` supply global foundations and MUI defaults. Dialogs and drawers use the same module references as inline content, independent of their portal placement.
+
+Vite scopes classes with a deterministic module namespace (`ModuleName__className`). Module filenames must remain unique. A few contextual selectors explicitly target another module's namespaced class, such as browse-card image sizing; Material UI selectors use `:global(.Mui...)`. There is no blanket global feature scope. Material UI and icons remain on v9.4.0.
 
 ## Folder conventions
 
@@ -39,66 +41,52 @@ src/
     App.tsx
     layout/
       AppLayout.tsx
-      styles/
+      AppLayout.module.scss
   providers/
   router/
-  pages/
-    HomePage.tsx
-    BrowsePage.tsx
-    ListingPage.tsx
-    AuctionPage.tsx
-    SellerListingPage.tsx
-    SellerDashboardPage.tsx
-    CheckoutPage.tsx
-    TransactionTimelinePage.tsx
-    NotFoundPage.tsx
+  pages/                      # All route boundaries
   features/
     auctions/
-      index.ts
-      auctions.module.scss
+      index.ts                # Only externally consumed exports
+      auction.module.scss     # Feature styling and media queries
       components/
-        LiveAuction.tsx
+        LiveAuction/
+          LiveAuction.tsx
+          LiveAuction.module.scss
       hooks/
         useAuction.ts
         useAuctionEvents.ts
         useAuctionScenario.ts
         useBid.ts
-        index.ts
       types/
         Auction.ts
         Bid.ts
-        index.ts
       services/
         auctionsService.ts
-        index.ts
-      styles/
-        _base.scss
-        _responsive.scss
   mocks/
-    api.ts                 # Contract-test facade
+    api.ts                    # Contract-test facade
     api.test.ts
     core/
     listings/
-      service.ts
-      repository.ts
     auctions/
-      service.ts
     offers/
-      service.ts
     transactions/
-      service.ts
-      reservations.ts
     seller/
-      service.ts
     notifications/
-      service.ts
   components/
+    Loading/
+      Loading.tsx
+      Loading.module.scss
   utils/
   shared/
   styles/
+    index.scss
+    _base.scss
+    _responsive.scss
+    common.module.scss
 ```
 
-The other features follow the same conventions where needed. Global page files own routing boundaries; feature components own the experience. Hook/type subfolder exports allow domain consumers to reuse contracts without importing feature UI.
+Each feature's main `index.ts` explicitly exports only hooks, services, types, components or constants imported outside that feature. There are no nested hook/type/service barrel files. Internal code imports the specific implementation file; external consumers import the feature entry point. Service adapters currently have no external consumers and remain private to their features. Root pages own routing boundaries; feature views own the experiences.
 
 ## State ownership
 

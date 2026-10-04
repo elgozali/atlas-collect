@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import type { Auction } from "../types";
+import type { Auction } from "../types/Auction";
 import { subscribeToMarketplace } from "../../../shared/realtime/service";
 
 export function useAuctionEvents(

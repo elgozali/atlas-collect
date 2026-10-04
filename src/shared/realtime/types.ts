@@ -1,4 +1,4 @@
-import type { Auction } from "../../features/auctions/types";
+import type { Auction } from "../../features/auctions";
 
 export type MarketplaceEvent = {
   eventId: string;

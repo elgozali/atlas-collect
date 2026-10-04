@@ -1,9 +1,9 @@
 import NotFoundPage from "../pages/NotFoundPage";
-import { ErrorBoundary } from "../components/ErrorBoundary";
+import { ErrorBoundary } from "../components/ErrorBoundary/ErrorBoundary";
 import { RouteEffects } from "./RouteEffects";
 import { lazy, Suspense } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { Loading } from "../components/Loading";
+import { Loading } from "../components/Loading/Loading";
 
 const Home = lazy(() => import("../pages/HomePage"));
 const Browse = lazy(() => import("../pages/BrowsePage"));

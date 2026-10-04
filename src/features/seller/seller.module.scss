@@ -1,8 +1,374 @@
-@use "sass:meta";
-
-.root {
-  :global {
-    @include meta.load-css("./styles/base");
-    @include meta.load-css("./styles/responsive");
+.wizardProgress {
+  padding: 24px 0 38px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 36px;
+}
+.wizardProgress :global(.MuiStepLabel-label) {
+  font-size: 11px;
+}
+.wizardLayout {
+  display: grid;
+  grid-template-columns: 1fr 310px;
+  gap: 55px;
+  margin-bottom: 70px;
+}
+.wizardCard {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 40px;
+  min-width: 0;
+}
+.wizardCard > h2 {
+  font-size: 30px;
+}
+.wizardCard > p:not(:global(.common__eyebrow)) {
+  font-size: 13px;
+  color: var(--muted);
+}
+.wizardCard > :global(.common__eyebrow) {
+  font-size: 9px;
+}
+.categoryChoices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 32px 0;
+}
+.categoryChoices button {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--ivory);
+  padding: 24px;
+  gap: 12px;
+  color: var(--ink);
+}
+.categoryChoices button.chosen {
+  background: #eef2e9;
+  border: 2px solid var(--green);
+  padding: 23px;
+}
+.categoryChoices svg {
+  font-size: 30px;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+.categoryChoices b {
+  font-size: 16px;
+}
+.categoryChoices span {
+  font-size: 11px;
+  color: var(--muted);
+}
+.wizardActions {
+  border-top: 1px solid var(--border);
+  margin-top: 38px;
+  padding-top: 26px;
+  display: flex;
+  justify-content: space-between;
+}
+.wizardAside {
+  padding: 28px 0;
+}
+.wizardAside > p {
+  font-size: 13px;
+  color: var(--muted);
+}
+.asideStep {
+  display: flex;
+  gap: 22px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.asideStep b {
+  color: #7b876e;
+  font-size: 12px;
+}
+.asideStep small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 6px;
+}
+.wizardAside > :global(.common__subtle) {
+  font-size: 11px;
+  margin-top: 30px;
+}
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 30px 0;
+}
+.uploadBox {
+  border: 1px dashed #afb9a4;
+  border-radius: 8px;
+  padding: 34px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 18px;
+  background: var(--ivory);
+}
+.uploadBox > svg {
+  font-size: 35px;
+  color: var(--green);
+}
+.uploadBox small {
+  color: var(--muted);
+  font-size: 10px;
+}
+.uploadPreviews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 20px 0;
+}
+.uploadPreviews > div {
+  width: 100px;
+}
+.uploadPreviews img {
+  height: 100px;
+  width: 100px;
+  object-fit: contain;
+  background: var(--stone);
+  border-radius: 6px;
+}
+.wizardValuation {
+  background: #eef1e7;
+  padding: 30px;
+  border-radius: 8px;
+  margin: 25px 0;
+}
+.wizardValuation p {
+  font-size: 12px;
+}
+.wizardValuation h2 {
+  font-size: 30px;
+}
+.saleFields {
+  margin-top: 28px;
+}
+.reviewSummary {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 24px 0;
+}
+.reviewSummary img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  background: var(--stone);
+  border-radius: 6px;
+}
+.reviewSummary p {
+  font-size: 12px;
+  color: var(--muted);
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 30px 0;
+  margin: 10px 0 40px;
+}
+.stats > div {
+  border-right: 1px solid var(--border);
+  padding: 0 28px;
+}
+.stats > div:first-child {
+  padding-left: 0;
+}
+.stats > div:last-child {
+  border: 0;
+}
+.stats b {
+  display: block;
+  font-size: 37px;
+  font-weight: 500;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+.stats span {
+  font-size: 11px;
+  color: var(--muted);
+}
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 50px;
+  margin-bottom: 70px;
+}
+.dashboardGrid h2 {
+  font-size: 25px;
+}
+.sellerListing {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+}
+.sellerListing > img {
+  width: 90px;
+  height: 105px;
+  object-fit: cover;
+  background: var(--stone);
+  border-radius: 6px;
+}
+.sellerListing > div {
+  flex: 1;
+}
+.sellerListing h3 {
+  font-size: 15px;
+  margin: 0 0 7px;
+}
+.sellerListing p {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+.sellerListing :global(.MuiButton-root) {
+  font-size: 11px;
+  padding: 8px;
+}
+.offersPanel {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px;
+  height: max-content;
+}
+.sellerOffer {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+.sellerOffer p {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.sellerOffer small {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.sellerOffer h3 {
+  font-size: 25px;
+  margin: 12px 0;
+}
+.sellerOffer :global(.common__dialogActions) {
+  margin: 18px 0 0;
+}
+@media (max-width: 1100px) {
+  .wizardLayout {
+    gap: 28px;
+    grid-template-columns: 1fr 240px;
+  }
+  .wizardCard {
+    padding: 30px;
+  }
+  .dashboardGrid {
+    gap: 30px;
+  }
+}
+@media (max-width: 760px) {
+  .wizardProgress {
+    overflow: auto;
+    margin-bottom: 24px;
+    padding-bottom: 25px;
+  }
+  .wizardProgress :global(.MuiStepper-root) {
+    min-width: 620px;
+  }
+  .wizardLayout {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 45px;
+  }
+  .wizardAside {
+    display: none;
+  }
+  .wizardCard {
+    padding: 24px 18px;
+  }
+  .wizardCard > h2 {
+    font-size: 26px;
+  }
+  .categoryChoices {
+    gap: 12px;
+  }
+  .categoryChoices button {
+    padding: 18px;
+  }
+  .categoryChoices button.chosen {
+    padding: 17px;
+  }
+  .categoryChoices b {
+    font-size: 13px;
+  }
+  .categoryChoices span {
+    font-size: 10px;
+  }
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .wizardValuation {
+    padding: 22px;
+  }
+  .wizardValuation h2 {
+    font-size: 24px;
+  }
+  .reviewSummary {
+    gap: 14px;
+  }
+  .reviewSummary img {
+    width: 85px;
+    height: 100px;
+  }
+  .reviewSummary h3 {
+    font-size: 16px;
+  }
+  .stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    padding: 24px 0;
+  }
+  .stats > div {
+    padding: 0 !important;
+    border: 0;
+  }
+  .stats b {
+    font-size: 30px;
+  }
+  .dashboardGrid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+  .sellerListing {
+    gap: 12px;
+  }
+  .sellerListing > img {
+    width: 65px;
+    height: 85px;
+  }
+  .sellerListing h3 {
+    font-size: 12px;
+  }
+  .sellerListing :global(.MuiButton-root) {
+    font-size: 10px;
+    min-width: 0;
+  }
+}
+@media (max-width: 380px) {
+  .categoryChoices {
+    grid-template-columns: 1fr;
   }
 }

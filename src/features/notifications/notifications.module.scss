@@ -1,7 +1,0 @@
-@use "sass:meta";
-
-.root {
-  :global {
-    @include meta.load-css("./styles/base");
-  }
-}

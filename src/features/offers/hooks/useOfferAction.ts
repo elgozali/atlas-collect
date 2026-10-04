@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { offersApi } from "../services";
-import type { OfferActionInput } from "../types";
-import type { Transaction } from "../../transactions/types";
+import { offersApi } from "../services/offersService";
+import type { OfferActionInput } from "../types/OfferActionInput";
+import type { Transaction } from "../../transactions";
 
 export function useOfferAction(
   onSuccess: (result: { transaction?: Transaction }) => void,

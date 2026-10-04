@@ -1,6 +1,7 @@
 import { mockSellerService } from "../../../mocks/seller/service";
 import { categoryFields } from "../schemas/listingSchema";
-import type { Draft, CreateListingInput } from "../types";
+import type { Draft } from "../types/Draft";
+import type { CreateListingInput } from "../types/CreateListingInput";
 
 export const sellerApi = {
   createListing: (input: CreateListingInput) =>

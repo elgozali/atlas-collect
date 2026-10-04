@@ -1,0 +1,36 @@
+.pageHeading {
+  padding: 58px 0 30px;
+}
+.pageHeading :global(.common__eyebrow) {
+  margin-bottom: 16px;
+}
+.pageHeading h1 {
+  margin: 0 0 12px;
+}
+.pageHeading > p:last-child {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 0;
+}
+.headingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+@media (max-width: 760px) {
+  .pageHeading {
+    padding: 36px 0 25px;
+  }
+  .pageHeading h1 {
+    font-size: 32px;
+  }
+  .pageHeading > p:last-child {
+    font-size: 12px;
+  }
+  .headingRow {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}

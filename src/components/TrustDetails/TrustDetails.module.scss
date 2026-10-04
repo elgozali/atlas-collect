@@ -1,0 +1,22 @@
+.trustDetails {
+  margin-top: 30px;
+}
+.trustDetails h3 {
+  font-size: 17px;
+  margin: 12px 0;
+}
+.trustChecks p {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+}
+.trustChecks svg {
+  color: var(--green);
+  font-size: 19px;
+}
+@media (max-width: 760px) {
+  .trustDetails {
+    margin-top: 20px;
+  }
+}

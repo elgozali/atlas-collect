@@ -1,6 +1,6 @@
 import { z } from "zod";
-import type { Category } from "../../listings/types";
-import type { Draft } from "../types";
+import type { Category } from "../../listings";
+import type { Draft } from "../types/Draft";
 
 export const categoryFields: Record<
   Category,

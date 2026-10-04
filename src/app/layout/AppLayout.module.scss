@@ -1,0 +1,182 @@
+.demoBanner {
+  background: #e9ede6;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.035em;
+  padding: 8px 12px;
+  color: #445347;
+}
+.siteHeader {
+  height: 98px;
+  max-width: 1440px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 54px;
+  border-bottom: 1px solid var(--border);
+  gap: 32px;
+}
+.wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+.wordmark span {
+  font-size: 29px;
+  letter-spacing: 0.11em;
+  font-weight: 600;
+}
+.wordmark small {
+  font-size: 9px;
+  letter-spacing: 0.43em;
+  margin-top: 8px;
+  padding-left: 4px;
+}
+.siteHeader nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-size: 13px;
+  font-weight: 550;
+}
+.siteHeader nav a:hover {
+  color: var(--green);
+}
+.headerActions {
+  display: flex;
+  gap: 8px;
+}
+.headerActions .menuToggle {
+  display: none;
+}
+.mainShell {
+  max-width: 1440px;
+  padding: 0 54px;
+  margin: auto;
+  min-height: 60vh;
+}
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 42px 54px 26px;
+  max-width: 1440px;
+  margin: auto;
+}
+.footerBrand {
+  font-size: 18px;
+  letter-spacing: 0.15em;
+  font-weight: 650;
+}
+.footer > p {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 14px 0 25px;
+}
+.footer > div {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--muted);
+}
+.skipLink {
+  position: fixed;
+  left: 20px;
+  top: -60px;
+  z-index: 2000;
+  background: #fff;
+  padding: 12px;
+}
+.skipLink:focus {
+  top: 12px;
+}
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding: 25px;
+  min-width: 270px;
+}
+.mobileNav > :global(.MuiIconButton-root) {
+  align-self: flex-end;
+}
+.mobileNav a {
+  font-size: 16px;
+}
+.searchDialog {
+  display: flex;
+  gap: 14px;
+  padding: 12px 0 22px;
+}
+@media (max-width: 1100px) {
+  .siteHeader {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .mainShell {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .siteHeader nav {
+    gap: 20px;
+  }
+}
+@media (max-width: 760px) {
+  .demoBanner {
+    font-size: 8px;
+    padding: 7px 15px;
+  }
+  .siteHeader {
+    height: 76px;
+    padding: 0 20px;
+    gap: 12px;
+  }
+  .wordmark span {
+    font-size: 24px;
+  }
+  .wordmark small {
+    font-size: 7px;
+  }
+  .siteHeader nav {
+    display: none;
+  }
+  .headerActions {
+    gap: 0;
+  }
+  .headerActions .menuToggle {
+    display: inline-flex;
+  }
+  .headerActions :global(.MuiIconButton-root) {
+    padding: 9px;
+  }
+  .mainShell {
+    padding: 0 20px;
+  }
+  .footer {
+    padding: 30px 20px;
+  }
+  .footerBrand {
+    font-size: 16px;
+  }
+  .footer > div {
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .searchDialog {
+    flex-direction: column;
+  }
+}
+@media (max-width: 380px) {
+  .headerActions :global(.MuiIconButton-root) {
+    padding: 7px;
+  }
+  .mainShell {
+    padding: 0 16px;
+  }
+}
+.mainShell:focus {
+  outline: none;
+}
