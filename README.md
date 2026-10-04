@@ -6,7 +6,7 @@ Atlas Collect is an interactive marketplace concept for discovering, valuing, bu
 
 The prototype was created for the Greenstone Senior Frontend Engineer assignment and explores product thinking, frontend architecture, simulated realtime marketplace interactions, transparent valuation, trust and protected transactions across **Luxury Watches** and **Trading Cards**.
 
-**Live prototype:** _Add public deployment URL_
+**Live prototype:** _[Atlas Collect Marketplace](https://atlas-collect-phi.vercel.app/)_
 
 - [Architecture](docs/ARCHITECTURE.md)
 - [Demo and testing](docs/QA.md)
