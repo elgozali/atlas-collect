@@ -1,75 +1,60 @@
 # Atlas Collect
 
-A high-fidelity interactive concept for an authenticated collectibles marketplace. Built for the Greenstone Senior Frontend Engineer assignment, following the agreed product, architecture and eight-experience scope.
+An interactive marketplace prototype for luxury watches and trading cards, with fixed-price purchases, live auctions, and seller listing flows.
 
-**React + TypeScript + Vite + Material UI 9.4.0 + SCSS Modules + classnames + React Router + TanStack Query + Zustand + React Hook Form + Zod.**
+Built with React, TypeScript, Vite, Material UI, SCSS Modules, React Router, TanStack Query, Zustand, React Hook Form, and Zod.
 
-## Run locally
+## Getting started
 
-Use Node 22.12 or later (the `.nvmrc` selects Node 22).
+Requires Node.js 22.12 or later.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open the URL printed by Vite, normally `http://localhost:5173`.
+Open the URL printed by Vite, usually `http://localhost:5173`.
 
-```sh
-npm test             # Domain and category validation tests
-npm run build        # Strict TypeScript and production build
-npm run preview      # Serve the production build locally
-npm run format:check # Formatting
-```
+## Scripts
 
-Browser regression tests are included for the three journeys at desktop and mobile sizes:
+| Command                | Purpose                                   |
+| ---------------------- | ----------------------------------------- |
+| `npm run dev`          | Start the development server              |
+| `npm run build`        | Check TypeScript and build for production |
+| `npm run preview`      | Preview the production build              |
+| `npm test`             | Run unit tests                            |
+| `npm run test:e2e`     | Run desktop and mobile browser tests      |
+| `npm run format:check` | Check formatting                          |
+| `npm run format`       | Format source and configuration files     |
+
+Install the browser before running end-to-end tests:
 
 ```sh
 npx playwright install chromium
-npm run test:e2e
 ```
 
-## Eight core experiences
+## Features
 
-| Experience | Route |
-| --- | --- |
-| Marketplace home | `/#/` |
-| Browse, filters, search and comparison | `/#/marketplace` |
-| Fixed-price listing | `/#/listings/rolex` |
-| Live card auction | `/#/auctions/charizard` |
-| Seller listing wizard | `/#/sell` |
-| Seller dashboard and offers | `/#/seller` |
-| Checkout and confirmation | `/#/checkout/:transactionId` |
-| Protected transaction timeline | `/#/transactions/:transactionId` |
+- Browse watches and cards with search, filters, saved items, and comparison.
+- Review provenance and valuation, buy at a fixed price, or negotiate an offer.
+- Bid in a live auction with competing bids and a two-minute late-bid extension.
+- Create a listing through a category-specific form and manage seller offers.
+- Follow checkout, authentication, delivery, inspection, and dispute states.
 
-Comparables, offers, counteroffers, image inspection, notifications and disputes are dialogs/drawers within these experiences. No additional account or admin screens are added.
+Use **Reset demo** in the footer to restore the sample data. See [Demo and testing](docs/QA.md) for walkthroughs.
 
-## The three demo journeys
+## Deployment
 
-1. **Fixed-price buyer:** Home → Watches → Rolex → Review valuation/authentication → Make an offer of AED 42,000 → Simulated seller counter at AED 44,000 → Accept → Complete sample delivery details → Simulate secure payment → Track transaction → Simulate updates to inspection → Accept the item or report an issue. Buy Now also works as a direct route into checkout.
-2. **Live auction:** Trading cards → Charizard → Place AED 25,000 bid → Wait for the automatic competing bid → Bid again. Use “Jump to final 30 seconds” then place a bid to demonstrate the two-minute extension. Switch the automatic competitor off, bid, then “Close auction now” to reach winner checkout.
-3. **Seller:** Sell → Choose watch/card → Category-specific details → Use sample details if needed → Sample private identifier → Demo image or upload → Valuation → Fixed-price/auction settings → Review → Submit → Seller studio. The listing remains pending verification. Seller offers support accept, counter and reject.
+Import the repository into Vercel. The included `vercel.json` uses `npm run build` and serves `dist`.
 
-The footer's **Reset demo** restores the sample data, clears the draft, and returns you home. Use it between rehearsals.
+Hash routing supports static hosting without route rewrites. A manual GitHub Pages workflow is also included; it sets `VITE_BASE_PATH` for repository sites. The checks workflow runs unit tests, the build, and browser tests on pushes and pull requests.
 
-## Public hosting and GitHub
+## Documentation
 
-The application uses **hash routing**, so deep links and refreshes work on static hosting without rewrite rules. Every route sits after `/#/`. Assets are local and use Vite's configured base path; fonts are self-hosted.
+- [Architecture](docs/ARCHITECTURE.md)
+- [Demo and testing](docs/QA.md)
+- [Image sources](docs/ASSETS.md)
 
-- **Vercel:** Import this repository. Vite is detected; `vercel.json` sets build/output.
-- **GitHub Pages:** In repository Settings → Pages choose **GitHub Actions**. Run the included **Publish GitHub Pages** workflow manually. It sets `VITE_BASE_PATH` to the repository name and deploys `dist`. For a user/organization root site or custom domain, use `/` for the base instead.
-- **Any static host:** Run `npm run build` and upload the contents of `dist`.
+## Prototype scope
 
-An included checks workflow runs unit tests, the production build and the browser journey suite on pushes and pull requests. Publishing is a separate manually triggered workflow.
-
-This checkout is prepared locally. Creating a GitHub remote and publishing a public URL are separate actions; no remote repository is assumed.
-
-## Architecture and prototype boundaries
-
-All route screens live in `src/pages/` and render views exported by feature `index.ts` entry points. Features own their `components/`, `hooks/` (one file per hook), `types/`, `services/`, and named SCSS module. Components have their own folders and matching SCSS Modules. Each feature module includes its responsive rules; only global styles retain base/responsive partials. JSX uses module references and `classnames` for combinations. Public exports live exclusively in each feature’s main `index.ts`; internal imports reference individual files. Shared utilities live in `utils/`, providers in `providers/`, and the shell in `app/layout/`. Mock commands are split by feature under `mocks/`, with persistence, realtime and reservation rules shared.
-
-See [Architecture](docs/ARCHITECTURE.md), [Demo and QA notes](docs/QA.md), and [Image sources](docs/ASSETS.md).
-
-All commercial interactions are **simulated**. No real authentication provider, backend, verification service, payment processor or shipping carrier is connected. The mock command layer represents the production contract; it is not a security boundary. Each visitor gets their own sample state.
-
-The Charizard sample uses the **Unlimited** edition to match the provided artwork. Values, grades, condition, certificates, ratings, offers and comparable sales are illustrative. Atlas is a concept; no affiliation with the depicted brands is implied.
+Data, bids, payments, and fulfilment are simulated in the browser. There is no live backend, payment provider, or authentication service. Sample values and verification details are illustrative.

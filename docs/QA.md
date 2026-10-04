@@ -1,74 +1,47 @@
-# Demo and QA notes
+# Demo and testing
 
-## Repeatable rehearsal
+Use **Reset demo** in the footer before each walkthrough. All actions use sample data; use placeholder delivery details and identifiers.
 
-Reset the demo from the footer before each presentation. The sample auction begins at AED 24,500 with AED 500 increments. The initial Rolex offer is AED 42,000; buyer-offer simulation counters at AED 44,000. Avoid using real personal information.
+## Fixed-price purchase
 
-Use “Use sample details” and “Use demo image” in the seller wizard for a fast walkthrough. The private reference can be `DEMO1234`. The card artwork is Unlimited edition; the listing deliberately uses matching metadata.
+1. Open the Rolex listing and review its valuation and provenance.
+2. Choose **Make an offer** and enter AED 42,000.
+3. Accept the simulated seller counteroffer of AED 44,000.
+4. Enter delivery details, accept the terms, and simulate payment.
+5. Open the transaction timeline and use **Simulate next update** to reach inspection.
+6. Accept the item or report an issue. Reset to try the other outcome.
 
-Auction controls can disable the automatic competitor, generate a competing bid, move to the final 30 seconds, or close the auction to exercise winner checkout. Transaction controls advance one simulated event at a time. At inspection, either accept the item or open a dispute. Reset to demonstrate the alternative branch.
+**Buy now** also enters checkout directly at the asking price.
 
-## Validation coverage
+## Live auction
 
-- Unit tests cover concurrent identical bids, duplicate commands, late-bid extensions, auction closure, offer versions, purchase conflicts, inspection constraints, dispute protection and category-form validation.
-- Browser journey tests cover the fixed-price path, the auction path and a card listing submission, each at desktop/mobile sizes.
-- The production command performs strict TypeScript compilation and Vite bundling.
-- The checked-in GitHub checks workflow runs all three checks.
+1. Open the Charizard auction. Bidding starts at AED 24,500 with AED 500 increments.
+2. Place a bid and use **Simulate competing bid** to see the outbid state.
+3. Choose **Jump to final 30 seconds**, then bid again to see the two-minute extension.
+4. Turn the automatic competitor off, ensure your bid leads, and choose **Close auction now**.
+5. Continue to winner checkout.
 
-Local verification results and native-browser observations are recorded here at delivery. Run the checks again after modifying the prototype.
+## Seller listing
 
-## Deliberate limits
+1. Open **Sell** and select a watch or trading card.
+2. Use **Use sample details** to populate the category fields.
+3. Enter a sample private identifier, such as `DEMO1234`.
+4. Use **Use demo image** or upload a JPEG, PNG, or WebP image.
+5. Review the valuation, choose sale settings, and continue to review.
+6. Submit the listing. It appears in the seller dashboard with verification pending.
 
-Sample data stays in the visitor's browser. No production backend or payment provider is connected. The verification team, automated timeout settlement, buyer/seller identity switching, multi-tab concurrency and dispute resolution are documented architectural concerns, not additional prototype screens.
+The seller dashboard also supports accepting, countering, and rejecting offers.
 
-## Local delivery verification (4 October 2026)
+## Checks
 
-- Strict TypeScript + production build: passed.
-- Unit tests: 18 passed across the mock command/state layer and category schemas.
-- Formatting check: passed.
-- Dependency audit: no reported vulnerabilities at delivery.
-- Native browser: fixed-price offer/counter/checkout/payment/timeline/inspection completion verified; bidding/outbid/anti-sniping verified. A fresh compiled preview also verifies the auction-winner checkout path.
-- The Playwright journey suite is included for CI/repeatable regression; it was not executed locally. Native in-app browser checks were used for local UI verification.
-- Seller browser checks: card-specific fields, verification, media, valuation and submission verified. A mobile watch submission confirms the review screen waits for an explicit submit click after the button-transition fix.
-- Mobile home, listing, navigation and seller dashboard checked at 390 × 844. Page width equals viewport width; the wizard's long stepper scrolls within its own container.
+```sh
+npm test
+npm run build
+npm run format:check
+npx playwright install chromium
+npm run test:e2e
+```
 
-## Structure and MUI upgrade verification
+Unit tests cover bid concurrency, idempotency, auction extensions and settlement, offer versions, reservations, transaction transitions, disputes, and category validation. Browser tests cover the three journeys at desktop and mobile sizes. The GitHub checks workflow runs the unit tests, build, and browser suite.
 
-- Material UI and icons resolve to 9.4.0; Sass resolves to 1.105.1.
-- Feature services, query/mutation hooks and domain types are separated from shared infrastructure. No screen imports `mocks/api`, and the combined Domain component and shared domain hooks/types have been removed.
-- SCSS compilation, strict TypeScript production build, all 18 unit tests, formatting and whitespace checks pass. Dependency audit reports zero vulnerabilities.
-- Native browser rechecks pass for buyer offer/counter/payment/timeline navigation and auction anti-sniping/winner checkout. Mobile seller submission and overflow are checked at 390 × 844.
-- Playwright regression tests remain available for CI; this refactor was verified locally through the native browser and unit/build checks.
-
-## Folder refinement verification
-
-- Hooks and types are individual modules under feature folders; API services, pages, embedded components, schemas and runtime constants have dedicated folders.
-- Utilities, providers and app layout have explicit ownership. The root pages folder contains the routed not-found page.
-- Feature SCSS and responsive rules moved into their features. A before/after comparison preserves declaration histories for all 461 selector/media combinations.
-- Final strict build, 18 unit tests, formatting and whitespace checks pass. Native browser checks cover all eight route screens plus the not-found page; Buy Now, payment and timeline navigation also pass.
-- Desktop home and mobile seller layout were visually checked. The mobile page width matches its 390 px viewport, and no browser warnings or errors appeared.
-
-## SCSS modules and mock service split
-
-- Route pages now live exclusively under `src/pages`; every feature has an `index.ts` entry point and a named SCSS module. Feature adapters live in `services/`.
-- Feature module scopes also cover portaled dialogs/drawers and alternate confirmation/error states. Global styles are limited to foundations, app layout and shared components.
-- Mock implementations are split by feature; `mocks/api.ts` is only a compatibility facade. Persistence, realtime and reservations continue to use one authoritative database.
-- Final strict build, formatting and all 18 rule/schema tests pass after the mock split. Native buyer checks cover offer/counter, payment, module-styled confirmation and timeline navigation; fresh-preview auction checks cover extension, closure and winner checkout.
-- Mobile card submission passes through all seven wizard steps at 390 × 844; review waits for an explicit submit, and page width matches the viewport. The notification drawer carries its module scope and retains its 380 px styling within the mobile viewport.
-
-## Component modules and public feature exports
-
-- `_base.scss` and `_responsive.scss` exist only in global styles. Feature modules contain their responsive rules directly; feature/component/layout partial folders are removed.
-- Every shared and feature component has its own folder and matching SCSS Module. JSX uses camelCase module references; conditional and combined classes use `classnames`. There are no literal or template-string `className` attributes or blanket global feature scopes.
-- Nested hook/type/service barrel files are removed. Feature entry points contain explicit exports consumed externally; feature internals import individual files. Shared realtime subscribers continue to use their adapter.
-- Strict production build, formatting, whitespace checks and all 18 rule/schema tests pass.
-- Native browser checks confirm fixed-price offer/counter/payment/confirmation/timeline, auction outbid/extension/closure/winner checkout, and a seven-step mobile card submission. Mobile notification styling remains 380 px within a 390 px viewport. No browser errors appeared.
-- Desktop and mobile styles were visually checked, including 1440 px auction/timeline layouts and the 390 px seller review; page widths match their viewports.
-
-## Final unused-code cleanup
-
-- All application source files remain reachable from the app, lazy routes or test entry points. TypeScript enforces unused-import and unused-variable checks.
-- Removed the mock API compatibility facade; command contract tests now call each feature's mock service directly. Mock command implementations and the internal seller adapter no longer expose unused named exports.
-- Removed redundant SCSS category exports, the empty legacy `src/lib` directory, the stale browser-test report and unreferenced documentation screenshots.
-- All declared runtime and development packages are required by the app, tooling, tests or TypeScript. Emotion packages remain required MUI peers; no extraneous installed packages were found.
-- All 18 tests, the strict production build, formatting and whitespace checks pass.
+For manual checks, also review responsive layouts, keyboard navigation, dialogs, image inspection, and notifications.

@@ -1,13 +1,13 @@
-# Prototype image sources
+# Image sources
 
-Images represent the collectible category/model and are not proof of the individual item's authentication or condition. Seller data, dates, valuation and grading in the demo are synthetic.
+Product images illustrate the sample models and categories. They do not establish an individual item's condition, grade, or authenticity.
 
-| Local asset | Source and rights notes |
-| --- | --- |
-| `rolex.jpg` | [Rolex Submariner Date reference 126610LN](https://www.rolex.com/watches/submariner/m126610ln-0001), official product imagery. Copyright Rolex. Included as reference imagery for the assignment concept; replace with owned/licensed seller media for a commercial release. |
-| `speedmaster.jpg` | [Omega Speedmaster Professional photo](https://commons.wikimedia.org/wiki/File:OMEGA-Speedmaster-Professional-Front.jpg), Torsten Bolten. Wikimedia lists this file as public domain. Model illustration; not an image of the synthetic 2023 item. |
-| `omega.jpg` | [Unsplash image](https://images.unsplash.com/photo-1524805444758-089113d48a6d), atmospheric watch image used for the category entrance. [Unsplash license](https://unsplash.com/license). |
-| `charizard.png` | [Pokémon TCG API card artwork](https://images.pokemontcg.io/base1/4_hires.png), Base Set 4/102. Pokémon/Nintendo/Creatures/Game Freak retain artwork/trademark rights. Sample Unlimited artwork; no slab/certificate photo is represented. |
-| `blastoise.png` | [Pokémon TCG API card artwork](https://images.pokemontcg.io/base1/2_hires.png), Base Set 2/102. Same rights notes. |
+| Asset             | Source and attribution                                                                                                                                                              |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `rolex.jpg`       | [Rolex Submariner Date 126610LN](https://www.rolex.com/watches/submariner/m126610ln-0001). Official product imagery; copyright Rolex.                                               |
+| `speedmaster.jpg` | [Omega Speedmaster Professional](https://commons.wikimedia.org/wiki/File:OMEGA-Speedmaster-Professional-Front.jpg) by Torsten Bolten. Listed as public domain on Wikimedia Commons. |
+| `omega.jpg`       | [Unsplash photograph](https://images.unsplash.com/photo-1524805444758-089113d48a6d), used for the watch category. [License](https://unsplash.com/license).                          |
+| `charizard.png`   | [Pokémon TCG API artwork](https://images.pokemontcg.io/base1/4_hires.png), Base Set 4/102, Unlimited edition. Artwork rights remain with Pokémon/Nintendo/Creatures/Game Freak.     |
+| `blastoise.png`   | [Pokémon TCG API artwork](https://images.pokemontcg.io/base1/2_hires.png), Base Set 2/102. Artwork rights remain with Pokémon/Nintendo/Creatures/Game Freak.                        |
 
-No depicted brand endorses Atlas Collect. The application does not sell real items. Source code and image rights are separate; the repository does not grant rights to third-party artwork.
+Third-party image rights are separate from the source code. Use owned or appropriately licensed media for a commercial release. The depicted brands do not endorse Atlas Collect.
