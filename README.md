@@ -127,8 +127,6 @@ Configuration is included for:
 
 The repository's checks workflow runs tests, the production build and browser journeys on pushes and pull requests.
 
-Once deployed, the public URL is listed at the top of this README.
-
 ## Sample content
 
 The Charizard example uses the **Unlimited** Base Set edition to match the supplied artwork.
