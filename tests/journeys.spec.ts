@@ -59,24 +59,33 @@ test("auction: competing bid, anti-sniping and winner checkout", async ({
   page,
 }) => {
   await page.goto("/#/auctions/charizard");
+  const auction = page.getByRole("main");
   await page
     .getByRole("button", { name: "Auto competitor: on", exact: true })
     .click();
   await page.getByRole("button", { name: "Place bid", exact: true }).click();
   await expect(
-    page.getByText("Bid accepted. You are the highest bidder.", {
+    auction.getByText("Bid accepted. You are the highest bidder.", {
       exact: true,
     }),
+  ).toBeVisible();
+  await expect(
+    page
+      .getByRole("status")
+      .getByText("Bid accepted. You are the highest bidder.", { exact: true }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Simulate competing bid", exact: true })
     .click();
   await expect(
-    page.getByText("You have been outbid.", { exact: true }),
+    auction.getByText("You have been outbid.", { exact: true }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Jump to final 30 seconds", exact: true })
     .click();
+  await expect(
+    page.getByRole("button", { name: "Jump to final 30 seconds", exact: true }),
+  ).toBeEnabled();
   await expect(
     page.getByRole("spinbutton", { name: "Your bid (AED)" }),
   ).toHaveValue("26000");
