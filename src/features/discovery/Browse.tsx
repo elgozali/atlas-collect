@@ -14,14 +14,14 @@ import {
   ToggleButtonGroup,
 } from "@mui/material";
 import { Close, Search, CompareArrows, FilterList } from "@mui/icons-material";
-import {
-  PageHeading,
-  CollectibleCard,
-  Loading,
-  ErrorPanel,
-} from "../../components/Domain";
-import { useListings, money } from "../../shared/hooks";
+import { PageHeading } from "../../components/PageHeading";
+import { CollectibleCard } from "../../components/CollectibleCard";
+import { Loading } from "../../components/Loading";
+import { ErrorPanel } from "../../components/ErrorPanel";
+import { useListings } from "../../features/listings/hooks";
+import { money } from "../../shared/formatters";
 import { useUI } from "../../shared/store";
+
 export default function Browse() {
   const [params, setParams] = useSearchParams();
   const category = params.get("category") || "all";

@@ -2,16 +2,26 @@
 
 ## Responsibilities
 
-- `src/app`: app shell, lazy routes, providers, query client, theme and responsive styles.
+- `src/app`: app shell, query client, demo reset adapter, theme and SCSS entrypoint/partials.
+- `src/router`: route definitions, lazy screen loading and navigation side effects; error recovery lives in its own reusable component.
 - `src/features/discovery`: home, browse, URL-owned category/search, local filters and sorting.
 - `src/features/listings`: gallery, fixed-price listing and purchase orchestration.
 - `src/features/offers`: offer entry, validation, seller-response simulation and counter acceptance.
 - `src/features/auctions`: countdown, bid submission, versioned event subscription and demo scenarios.
 - `src/features/seller`: category field registry, Zod schemas, seven-step RHF wizard and dashboard.
 - `src/features/transactions`: checkout, confirmation, lifecycle, inspection and disputes.
-- `src/components`: reusable marketplace components: verification, valuation, protection, cards and trust details.
-- `src/shared`: domain types, formatters, query hooks and the small client UI store.
+- `src/features/notifications`: notification types, service and polling hook.
+- `src/components`: one component per file for verification, valuation, protection, cards, trust details, headings, loading, errors and route recovery.
+- `src/shared`: pure asset/currency/date formatters, the small client UI store, and the common realtime subscription contract. Domain models and query/mutation hooks live in their owning feature.
 - `src/mocks`: seeded data and an asynchronous mock command/query service, with unit tests.
+
+## Feature boundaries
+
+Features with domain operations own `api.ts`, `hooks.ts`, and `types.ts`. Screens import their feature hooks; cross-feature screens reuse the owning domain hook and type instead of duplicating them. Discovery uses listing hooks, and the seller dashboard composes listing, offer and transaction hooks. Neither needs copies of those contracts. Seller drafts and submission payloads belong to the seller feature; converting a draft into a public listing is handled by its service.
+
+Feature services are the only feature modules that import the mock database. This common simulated backend keeps reservation, offer and auction rules consistent; it is not a global frontend API consumed by screens. The shared realtime adapter exposes event subscription, and `app/demo.ts` exposes reset for the shell. Replace feature service implementations when connecting a real backend.
+
+Styles use Sass via `src/app/styles.scss`, with ordered partials under `src/app/styles/` for foundations, layouts, components, feature screens and responsive overrides. The cascade order is preserved. Material UI and its icons use v9.4.0; removed legacy `Outline` icon imports use `Outlined`.
 
 ## State ownership
 

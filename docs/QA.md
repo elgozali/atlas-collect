@@ -31,3 +31,11 @@ Sample data stays in the visitor's browser. No production backend or payment pro
 - The Playwright journey suite is included for CI/repeatable regression; it was not executed locally. Native in-app browser checks were used for local UI verification.
 - Seller browser checks: card-specific fields, verification, media, valuation and submission verified. A mobile watch submission confirms the review screen waits for an explicit submit click after the button-transition fix.
 - Mobile home, listing, navigation and seller dashboard checked at 390 × 844. Page width equals viewport width; the wizard's long stepper scrolls within its own container.
+
+## Structure and MUI upgrade verification
+
+- Material UI and icons resolve to 9.4.0; Sass resolves to 1.105.1.
+- Feature services, query/mutation hooks and domain types are separated from shared infrastructure. No screen imports `mocks/api`, and the combined Domain component and shared domain hooks/types have been removed.
+- SCSS compilation, strict TypeScript production build, all 18 unit tests, formatting and whitespace checks pass. Dependency audit reports zero vulnerabilities.
+- Native browser rechecks pass for buyer offer/counter/payment/timeline navigation and auction anti-sniping/winner checkout. Mobile seller submission and overflow are checked at 390 × 844.
+- Playwright regression tests remain available for CI; this refactor was verified locally through the native browser and unit/build checks.

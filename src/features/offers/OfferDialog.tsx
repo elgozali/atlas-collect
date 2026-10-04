@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Alert,
   Button,
@@ -14,9 +13,15 @@ import { Close } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { api } from "../../mocks/api";
-import { money, useOffers } from "../../shared/hooks";
-import type { Listing, Offer } from "../../shared/types";
+import { money } from "../../shared/formatters";
+import {
+  useOffers,
+  useOfferAction,
+  useSubmitOffer,
+  useSimulatedSellerResponse,
+} from "./hooks";
+import type { Listing } from "../../features/listings/types";
+
 export function OfferDialog({
   item,
   open,
@@ -27,7 +32,6 @@ export function OfferDialog({
   onClose: () => void;
 }) {
   const navigate = useNavigate();
-  const client = useQueryClient();
   const offers = useOffers();
   const current = offers.data?.find(
     (o) =>
@@ -47,61 +51,13 @@ export function OfferDialog({
     resolver: zodResolver(schema),
     defaultValues: { amount: Math.round((item.price * 0.91) / 500) * 500 },
   });
-  const refresh = () => client.invalidateQueries({ queryKey: ["offers"] });
-  const submit = useMutation({
-    mutationFn: async ({ amount }: { amount: number }) => {
-      if (current && editing)
-        return (
-          await api.offerAction(
-            current.id,
-            current.version,
-            "counter",
-            amount,
-            "buyer",
-          )
-        ).offer;
-      return api.offer(item.id, amount);
-    },
-    onSuccess: () => {
-      setEditing(false);
-      refresh();
-    },
+  const submit = useSubmitOffer(item.id, current, editing, () =>
+    setEditing(false),
+  );
+  const action = useOfferAction((r) => {
+    if (r.transaction) navigate(`/checkout/${r.transaction.id}`);
   });
-  const action = useMutation({
-    mutationFn: ({
-      offer,
-      type,
-    }: {
-      offer: Offer;
-      type: "accept" | "reject";
-    }) => api.offerAction(offer.id, offer.version, type),
-    onSuccess: (r) => {
-      refresh();
-      client.invalidateQueries({ queryKey: ["listings"] });
-      if (r.transaction) navigate(`/checkout/${r.transaction.id}`);
-    },
-  });
-  useEffect(() => {
-    if (!open || !current || current.status !== "pending") return;
-    const timer = setTimeout(() => {
-      api
-        .offerAction(
-          current.id,
-          current.version,
-          "counter",
-          Math.min(
-            item.price - 500,
-            Math.max(
-              current.amount,
-              Math.round((item.price * 0.9565) / 500) * 500,
-            ),
-          ),
-        )
-        .then(refresh)
-        .catch(() => refresh());
-    }, 2200);
-    return () => clearTimeout(timer);
-  }, [open, current?.id, current?.version]);
+  useSimulatedSellerResponse(open, current, item.price);
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>

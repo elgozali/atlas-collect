@@ -1,13 +1,12 @@
 import { seeds } from "./data";
-import type {
-  Auction,
-  Listing,
-  MarketplaceEvent,
-  Notification,
-  Offer,
-  Transaction,
-} from "../shared/types";
-import { transactionSteps } from "../shared/types";
+import type { Auction } from "../features/auctions/types";
+import type { Listing } from "../features/listings/types";
+import type { MarketplaceEvent } from "../shared/realtime/types";
+import type { Notification } from "../features/notifications/types";
+import type { Offer } from "../features/offers/types";
+import type { Transaction } from "../features/transactions/types";
+import { transactionSteps } from "../features/transactions/types";
+
 export class DomainError extends Error {
   constructor(
     public code: string,

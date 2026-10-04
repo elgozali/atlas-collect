@@ -1,85 +1,52 @@
+import {
+  useAuction,
+  useAuctionEvents,
+  useBid,
+  useAuctionScenario,
+} from "./hooks";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Alert, Button, TextField, Chip } from "@mui/material";
 import { ArrowBack, AccessTime, Wifi } from "@mui/icons-material";
-import { api } from "../../mocks/api";
-import { asset, money, useListing, date } from "../../shared/hooks";
-import type { Auction } from "../../shared/types";
-import {
-  Verified,
-  Valuation,
-  TrustDetails,
-  Loading,
-  ErrorPanel,
-  Protection,
-  SaveButton,
-} from "../../components/Domain";
+import { auctionsApi } from "./api";
+import { asset, money, date } from "../../shared/formatters";
+import { useListing } from "../../features/listings/hooks";
+import { Verified } from "../../components/Verified";
+import { Valuation } from "../../components/Valuation";
+import { TrustDetails } from "../../components/TrustDetails";
+import { Loading } from "../../components/Loading";
+import { ErrorPanel } from "../../components/ErrorPanel";
+import { Protection } from "../../components/Protection";
+import { SaveButton } from "../../components/SaveButton";
+
 export default function AuctionPage() {
   const { id = "" } = useParams();
   const listing = useListing(id);
-  const client = useQueryClient();
-  const q = useQuery({
-    queryKey: ["auction", id],
-    queryFn: api.getAuction,
-    enabled: id === "charizard",
-    refetchInterval: 10000,
-  });
+  const q = useAuction(id);
   const [amount, setAmount] = useState(25000);
   const [now, setNow] = useState(Date.now());
   const [auto, setAuto] = useState(true);
   const [announcement, setAnnouncement] = useState("");
   const [offset, setOffset] = useState(0);
+  useAuctionEvents(id, setAnnouncement);
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(timer);
   }, []);
-  useEffect(
-    () =>
-      api.subscribe((e) => {
-        if (e.entityId !== id || !e.auction) return;
-        client.setQueryData<Auction>(["auction", id], (old) =>
-          !old || e.version > old.version ? e.auction : old,
-        );
-        if (e.auction.status === "closed")
-          setAnnouncement(
-            e.auction.highestBidder === "You"
-              ? "Auction won. Your collectible is reserved."
-              : "Auction closed. Another collector won.",
-          );
-        else if (e.auction.highestBidder !== "You")
-          setAnnouncement("You have been outbid.");
-      }),
-    [id, client],
-  );
+
   useEffect(() => {
     if (q.data) {
       setOffset(q.data.serverTime - Date.now());
       setAmount(q.data.minimumNextBid);
     }
   }, [q.data?.version]);
-  const bid = useMutation({
-    mutationFn: () => api.bid(amount, crypto.randomUUID()),
-    onSuccess: (a) => {
-      client.setQueryData(["auction", id], a);
-      setAnnouncement("Bid accepted. You are the highest bidder.");
-    },
-    onError: () => q.refetch(),
-  });
-  const scenario = useMutation({
-    mutationFn: (type: "competitor" | "window" | "close") =>
-      type === "competitor"
-        ? api.competitor()
-        : type === "close"
-          ? api.closeAuction()
-          : api.finalWindow(),
-    onSuccess: (a) => client.setQueryData(["auction", id], a),
-  });
+  const bid = useBid(id, amount, setAnnouncement, () => q.refetch());
+  const scenario = useAuctionScenario(id);
   useEffect(() => {
     if (!auto || q.data?.highestBidder !== "You" || q.data?.status !== "live")
       return;
     const timer = setTimeout(
-      () => api.competitor().catch(() => q.refetch()),
+      () => auctionsApi.competitor().catch(() => q.refetch()),
       4500,
     );
     return () => clearTimeout(timer);

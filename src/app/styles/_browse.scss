@@ -1,0 +1,108 @@
+.browse-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--border);
+}
+.browse-top > .MuiTextField-root {
+  max-width: 290px;
+}
+.browse-top .MuiToggleButton-root {
+  font-size: 12px;
+  text-transform: none;
+  padding: 10px 22px;
+}
+.browse-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 44px;
+  padding: 30px 0 60px;
+}
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: stretch;
+}
+.filters h3 {
+  font-size: 15px;
+}
+.filter-note {
+  font-size: 12px;
+  color: var(--muted);
+}
+.filter-note b {
+  display: block;
+  margin-top: 8px;
+  color: var(--ink);
+  font-size: 12px;
+}
+.filter-note p {
+  font-size: 11px;
+}
+.browse-results {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+.browse-results > span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.browse-results > .MuiTextField-root {
+  max-width: 190px;
+}
+.browse-results .mobile-filter {
+  display: none;
+}
+.browse-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px 20px;
+}
+.browse-grid .card-image {
+  height: 260px;
+}
+.browse-grid .MuiFormControlLabel-label {
+  font-size: 11px;
+}
+.compare-tray {
+  position: sticky;
+  bottom: 18px;
+  background: #fff;
+  border: 1px solid var(--border);
+  box-shadow: 0 5px 25px #244b4015;
+  border-radius: 8px;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  max-width: 480px;
+  margin: 0 auto 25px;
+  font-size: 13px;
+  z-index: 3;
+}
+.comparison {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 22px;
+}
+.comparison > div {
+  padding: 20px;
+  background: var(--ivory);
+  border-radius: 8px;
+}
+.comparison p {
+  font-size: 12px;
+}
+.filter-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}

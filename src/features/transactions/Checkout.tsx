@@ -1,5 +1,6 @@
+import type { CheckoutValues } from "./types";
+import { useTransaction, usePayment } from "./hooks";
 import { Link, useParams } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -11,44 +12,31 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import {
-  CheckCircleOutline,
+  CheckCircleOutlined,
   LockOutlined,
   ArrowForward,
 } from "@mui/icons-material";
-import { api } from "../../mocks/api";
-import { asset, money } from "../../shared/hooks";
-import {
-  PageHeading,
-  Loading,
-  ErrorPanel,
-  Protection,
-} from "../../components/Domain";
+import { asset, money } from "../../shared/formatters";
+import { PageHeading } from "../../components/PageHeading";
+import { Loading } from "../../components/Loading";
+import { ErrorPanel } from "../../components/ErrorPanel";
+import { Protection } from "../../components/Protection";
+
 const schema = z.object({
   name: z.string().trim().min(2, "Enter your full name."),
   address: z.string().trim().min(8, "Enter your delivery address."),
   city: z.string().trim().min(2, "Enter a city."),
   consent: z.boolean().refine((v) => v, "Please confirm the purchase terms."),
 });
-type Values = z.infer<typeof schema>;
+
 export default function Checkout() {
   const { id = "" } = useParams();
-  const client = useQueryClient();
-  const q = useQuery({
-    queryKey: ["transaction", id],
-    queryFn: () => api.getTransaction(id),
-  });
-  const form = useForm<Values>({
+  const q = useTransaction(id);
+  const form = useForm<CheckoutValues>({
     resolver: zodResolver(schema),
     defaultValues: { name: "", address: "", city: "Dubai", consent: false },
   });
-  const pay = useMutation({
-    mutationFn: (v: Values) =>
-      api.pay(id, `${v.name}, ${v.address}, ${v.city}`),
-    onSuccess: (t) => {
-      client.setQueryData(["transaction", id], t);
-      client.invalidateQueries({ queryKey: ["transactions"] });
-    },
-  });
+  const pay = usePayment(id);
   if (q.isPending) return <Loading />;
   if (q.isError)
     return <ErrorPanel error={q.error} retry={() => q.refetch()} />;
@@ -57,7 +45,7 @@ export default function Checkout() {
   if (t.status !== "payment_pending")
     return (
       <div className="confirmation">
-        <CheckCircleOutline />
+        <CheckCircleOutlined />
         <p className="eyebrow">PAYMENT SECURED</p>
         <h1>A new chapter for your collection.</h1>
         <p>

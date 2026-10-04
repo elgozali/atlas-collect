@@ -2,7 +2,7 @@
 
 A high-fidelity interactive concept for an authenticated collectibles marketplace. Built for the Greenstone Senior Frontend Engineer assignment, following the agreed product, architecture and eight-experience scope.
 
-**React + TypeScript + Vite + Material UI + React Router + TanStack Query + Zustand + React Hook Form + Zod.**
+**React + TypeScript + Vite + Material UI 9.4.0 + SCSS + React Router + TanStack Query + Zustand + React Hook Form + Zod.**
 
 ## Run locally
 

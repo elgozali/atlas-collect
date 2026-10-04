@@ -1,6 +1,6 @@
+import { useTransaction, useTransactionAction } from "./hooks";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Alert,
   Button,
@@ -16,22 +16,16 @@ import {
   ArrowForward,
   LocalShippingOutlined,
 } from "@mui/icons-material";
-import { api } from "../../mocks/api";
-import { transactionSteps } from "../../shared/types";
-import { asset, date, money } from "../../shared/hooks";
-import {
-  PageHeading,
-  Loading,
-  ErrorPanel,
-  Protection,
-} from "../../components/Domain";
+import { transactionSteps } from "./types";
+import { asset, date, money } from "../../shared/formatters";
+import { PageHeading } from "../../components/PageHeading";
+import { Loading } from "../../components/Loading";
+import { ErrorPanel } from "../../components/ErrorPanel";
+import { Protection } from "../../components/Protection";
+
 export default function Timeline() {
   const { id = "" } = useParams();
-  const client = useQueryClient();
-  const q = useQuery({
-    queryKey: ["transaction", id],
-    queryFn: () => api.getTransaction(id),
-  });
+  const q = useTransaction(id);
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState("Item not as described");
   const [details, setDetails] = useState("");
@@ -40,20 +34,9 @@ export default function Timeline() {
     const timer = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(timer);
   }, []);
-  const action = useMutation({
-    mutationFn: (type: "advance" | "accept" | "dispute") =>
-      type === "advance"
-        ? api.advance(id)
-        : type === "accept"
-          ? api.acceptInspection(id)
-          : api.dispute(id, `${reason}: ${details}`),
-    onSuccess: (t) => {
-      client.setQueryData(["transaction", id], t);
-      client.invalidateQueries({ queryKey: ["transactions"] });
-      client.invalidateQueries({ queryKey: ["listings"] });
-      setOpen(false);
-    },
-  });
+  const action = useTransactionAction(id, `${reason}: ${details}`, () =>
+    setOpen(false),
+  );
   if (q.isPending) return <Loading />;
   if (q.isError)
     return <ErrorPanel error={q.error} retry={() => q.refetch()} />;

@@ -1,20 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Alert, Button, Dialog, IconButton } from "@mui/material";
 import { ArrowBack, ArrowForward, Close, ZoomIn } from "@mui/icons-material";
-import { api } from "../../mocks/api";
-import { useListing, asset, money } from "../../shared/hooks";
-import {
-  Loading,
-  ErrorPanel,
-  Verified,
-  SaveButton,
-  Valuation,
-  TrustDetails,
-  Protection,
-} from "../../components/Domain";
+import { useListing, usePurchase } from "./hooks";
+import { asset, money } from "../../shared/formatters";
+import { Loading } from "../../components/Loading";
+import { ErrorPanel } from "../../components/ErrorPanel";
+import { Verified } from "../../components/Verified";
+import { SaveButton } from "../../components/SaveButton";
+import { Valuation } from "../../components/Valuation";
+import { TrustDetails } from "../../components/TrustDetails";
+import { Protection } from "../../components/Protection";
 import { OfferDialog } from "../offers/OfferDialog";
+
 export default function ListingPage() {
   const { id = "" } = useParams();
   const q = useListing(id);
@@ -22,15 +20,7 @@ export default function ListingPage() {
   const [zoom, setZoom] = useState(false);
   const [view, setView] = useState(0);
   const navigate = useNavigate();
-  const client = useQueryClient();
-  const buy = useMutation({
-    mutationFn: () => api.purchase(id, crypto.randomUUID()),
-    onSuccess: (t) => {
-      client.invalidateQueries({ queryKey: ["listing", id] });
-      client.invalidateQueries({ queryKey: ["listings"] });
-      navigate(`/checkout/${t.id}`);
-    },
-  });
+  const buy = usePurchase(id, (t) => navigate(`/checkout/${t.id}`));
   if (q.isPending) return <Loading />;
   if (q.isError)
     return <ErrorPanel error={q.error} retry={() => q.refetch()} />;

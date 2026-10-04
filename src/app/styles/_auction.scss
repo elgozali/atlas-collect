@@ -1,0 +1,81 @@
+.auction-layout h1 {
+  margin-top: 26px;
+  font-size: 38px;
+}
+.auction-panel {
+  background: #eef0e8;
+  padding: 26px;
+  border: 1px solid #dce2d5;
+  border-radius: 8px;
+  margin: 24px 0;
+}
+.auction-panel > .row {
+  font-size: 12px;
+  color: var(--muted);
+}
+.auction-panel .price {
+  margin: 12px 0 24px;
+}
+.auction-clock {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0;
+  border-top: 1px solid #d3d9cd;
+  border-bottom: 1px solid #d3d9cd;
+  margin-bottom: 24px;
+}
+.auction-clock small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+.auction-clock b {
+  display: block;
+  font-size: 32px;
+  letter-spacing: 0.035em;
+  font-variant-numeric: tabular-nums;
+  font-weight: 550;
+}
+.auction-clock > svg {
+  color: var(--green);
+}
+.auction-panel .MuiAlert-root {
+  margin-bottom: 18px;
+}
+.auction-panel form {
+  display: grid;
+  gap: 10px;
+}
+.auction-panel .subtle {
+  font-size: 10px;
+  margin: 16px 0 0;
+}
+.auction-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 65px;
+  margin-bottom: 64px;
+}
+.demo-panel {
+  background: #eeefe7;
+  border: 1px dashed #b9c2af;
+  padding: 26px;
+  border-radius: 8px;
+  margin: 24px 0;
+  height: max-content;
+}
+.demo-panel h3 {
+  margin: 0 0 12px;
+}
+.demo-panel p:not(.eyebrow) {
+  font-size: 12px;
+  color: var(--muted);
+}
+.demo-panel .eyebrow {
+  margin-bottom: 14px;
+}
+.demo-panel .MuiButton-root {
+  font-size: 11px;
+}

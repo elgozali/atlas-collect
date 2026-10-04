@@ -6,8 +6,12 @@ import {
   ShieldOutlined,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { useListings, asset } from "../../shared/hooks";
-import { CollectibleCard, Loading, ErrorPanel } from "../../components/Domain";
+import { useListings } from "../../features/listings/hooks";
+import { asset } from "../../shared/formatters";
+import { CollectibleCard } from "../../components/CollectibleCard";
+import { Loading } from "../../components/Loading";
+import { ErrorPanel } from "../../components/ErrorPanel";
+
 export default function Home() {
   const q = useListings();
   return (

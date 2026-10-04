@@ -1,5 +1,7 @@
 import { z } from "zod";
-import type { Category } from "../../shared/types";
+import type { Category } from "../../features/listings/types";
+import type { Draft } from "./types";
+
 export const categoryFields: Record<
   Category,
   { key: string; label: string; options?: string[] }[]
@@ -41,19 +43,6 @@ export const categoryFields: Record<
     { key: "grader", label: "Grader", options: ["PSA", "BGS", "CGC"] },
     { key: "grade", label: "Grade", options: ["10", "9", "8", "7"] },
   ],
-};
-export type Draft = {
-  category: Category;
-  details: Record<string, string>;
-  privateReference: string;
-  box: boolean;
-  papers: boolean;
-  media: string[];
-  sale: "fixed" | "auction";
-  price: number;
-  reserve: number;
-  duration: string;
-  offers: boolean;
 };
 export const defaultDraft: Draft = {
   category: "watches",

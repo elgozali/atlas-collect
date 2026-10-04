@@ -1,20 +1,5 @@
-import {
-  lazy,
-  Suspense,
-  useEffect,
-  useState,
-  Component,
-  type ReactNode,
-} from "react";
-import {
-  Link,
-  NavLink,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   Button,
   Drawer,
@@ -29,54 +14,19 @@ import {
 import {
   Search,
   NotificationsNone,
-  PersonOutline,
+  PersonOutlined,
   Menu,
   Close,
   ArrowForward,
 } from "@mui/icons-material";
-import { api } from "../mocks/api";
+import { subscribeToMarketplace } from "../shared/realtime/service";
+import { resetDemo } from "./demo";
+import { useNotifications } from "../features/notifications/hooks";
+import { AppRouter } from "../router/AppRouter";
 import { queryClient } from "./query";
-import { Loading } from "../components/Domain";
-import { date } from "../shared/hooks";
+import { date } from "../shared/formatters";
 import { useUI } from "../shared/store";
-const Home = lazy(() => import("../features/discovery/Home"));
-const Browse = lazy(() => import("../features/discovery/Browse"));
-const Listing = lazy(() => import("../features/listings/ListingPage"));
-const Auction = lazy(() => import("../features/auctions/AuctionPage"));
-const Wizard = lazy(() => import("../features/seller/Wizard"));
-const Seller = lazy(() => import("../features/seller/Dashboard"));
-const Checkout = lazy(() => import("../features/transactions/Checkout"));
-const Timeline = lazy(() => import("../features/transactions/Timeline"));
-class ErrorBoundary extends Component<
-  { children: ReactNode },
-  { error: boolean }
-> {
-  state = { error: false };
-  static getDerivedStateFromError() {
-    return { error: true };
-  }
-  render() {
-    return this.state.error ? (
-      <div className="empty">
-        <h1>Let’s try that again.</h1>
-        <p>This page could not be displayed.</p>
-        <Button onClick={() => window.location.reload()}>
-          Reload the prototype
-        </Button>
-      </div>
-    ) : (
-      this.props.children
-    );
-  }
-}
-function RouteEffects() {
-  const location = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    document.title = `Atlas Collect | ${location.pathname === "/" ? "Objects worth collecting" : location.pathname.includes("auction") ? "Live auction" : location.pathname.includes("sell") ? "Seller studio" : location.pathname.includes("transaction") ? "Protected transaction" : "The collection"}`;
-  }, [location.pathname]);
-  return null;
-}
+
 export default function App() {
   const [menu, setMenu] = useState(false);
   const [notifications, setNotifications] = useState(false);
@@ -87,7 +37,7 @@ export default function App() {
   const location = useLocation();
   useEffect(
     () =>
-      api.subscribe((e) => {
+      subscribeToMarketplace((e) => {
         if (e.auction) {
           queryClient.invalidateQueries({ queryKey: ["listings"] });
           queryClient.invalidateQueries({ queryKey: ["listing", e.entityId] });
@@ -96,11 +46,7 @@ export default function App() {
       }),
     [],
   );
-  const notes = useQuery({
-    queryKey: ["notifications"],
-    queryFn: api.getNotifications,
-    refetchInterval: 5000,
-  });
+  const notes = useNotifications();
   useEffect(() => {
     setMenu(false);
   }, [location.pathname, location.search]);
@@ -114,7 +60,6 @@ export default function App() {
   );
   return (
     <>
-      <RouteEffects />
       <a
         className="skip-link"
         href="#main"
@@ -150,7 +95,7 @@ export default function App() {
             </Badge>
           </IconButton>
           <IconButton component={Link} to="/seller" aria-label="Seller account">
-            <PersonOutline />
+            <PersonOutlined />
           </IconButton>
           <IconButton
             className="menu-toggle"
@@ -162,31 +107,7 @@ export default function App() {
         </div>
       </header>
       <main id="main" tabIndex={-1} className="main-shell">
-        <ErrorBoundary key={location.pathname}>
-          <Suspense fallback={<Loading />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/marketplace" element={<Browse />} />
-              <Route path="/listings/:id" element={<Listing />} />
-              <Route path="/auctions/:id" element={<Auction />} />
-              <Route path="/sell" element={<Wizard />} />
-              <Route path="/seller" element={<Seller />} />
-              <Route path="/checkout/:id" element={<Checkout />} />
-              <Route path="/transactions/:id" element={<Timeline />} />
-              <Route
-                path="*"
-                element={
-                  <div className="empty">
-                    <h1>This page is outside the collection.</h1>
-                    <Button component={Link} to="/">
-                      Return home
-                    </Button>
-                  </div>
-                }
-              />
-            </Routes>
-          </Suspense>
-        </ErrorBoundary>
+        <AppRouter />
       </main>
       <footer>
         <Link to="/" className="footer-brand">
@@ -282,7 +203,7 @@ export default function App() {
             <Button
               variant="contained"
               onClick={() => {
-                api.reset();
+                resetDemo();
                 useUI.getState().clear();
                 sessionStorage.removeItem("atlas-draft-v1");
                 queryClient.clear();

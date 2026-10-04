@@ -1,4 +1,5 @@
-import type { Listing } from "../shared/types";
+import type { Listing } from "../features/listings/types";
+
 export const seeds: Listing[] = [
   {
     id: "rolex",

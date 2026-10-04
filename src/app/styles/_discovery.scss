@@ -1,0 +1,128 @@
+.category-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 10px 0 60px;
+}
+.category-section > a {
+  position: relative;
+  background: #e7e8df;
+  min-height: 355px;
+  padding: 35px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.category-section > a:last-child {
+  background: #ebe6da;
+}
+.category-section span {
+  font-size: 11px;
+}
+.category-section h2 {
+  position: relative;
+  z-index: 1;
+  font-size: 34px;
+  margin-top: 24px;
+  width: 80%;
+  line-height: 1.12;
+}
+.category-section p {
+  position: absolute;
+  bottom: 20px;
+  font-size: 11px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.category-section img {
+  position: absolute;
+  right: -10%;
+  bottom: 0;
+  width: 55%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+  mask-image: linear-gradient(to right, transparent, #000 30%);
+}
+.category-section > a:last-child img {
+  object-fit: contain;
+  width: 37%;
+  height: 75%;
+  right: 6%;
+  bottom: 9%;
+  transform: rotate(11deg);
+  mask-image: none;
+}
+.category-section > a:last-child h2 {
+  max-width: 65%;
+}
+.seller-invite {
+  text-align: center;
+  border-top: 1px solid var(--border);
+  padding: 58px 0 66px;
+}
+.seller-invite p {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.seller-invite h2 {
+  font-size: 36px;
+}
+footer {
+  border-top: 1px solid var(--border);
+  padding: 42px 54px 26px;
+  max-width: 1440px;
+  margin: auto;
+}
+.footer-brand {
+  font-size: 18px;
+  letter-spacing: 0.15em;
+  font-weight: 650;
+}
+footer > p {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 14px 0 25px;
+}
+footer > div {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--muted);
+}
+.skip-link {
+  position: fixed;
+  left: 20px;
+  top: -60px;
+  z-index: 2000;
+  background: #fff;
+  padding: 12px;
+}
+.skip-link:focus {
+  top: 12px;
+}
+.page-heading {
+  padding: 58px 0 30px;
+}
+.page-heading .eyebrow {
+  margin-bottom: 16px;
+}
+.page-heading h1 {
+  margin: 0 0 12px;
+}
+.page-heading > p:last-child {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 0;
+}
+.heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}

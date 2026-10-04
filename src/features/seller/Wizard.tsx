@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Alert,
   Button,
@@ -24,16 +23,14 @@ import {
   UploadFile,
   LockOutlined,
 } from "@mui/icons-material";
-import {
-  categoryFields,
-  defaultDraft,
-  draftSchema,
-  type Draft,
-} from "./schema";
-import { api } from "../../mocks/api";
-import { asset, money } from "../../shared/hooks";
-import { PageHeading, Protection } from "../../components/Domain";
-import type { Category } from "../../shared/types";
+import { categoryFields, defaultDraft, draftSchema } from "./schema";
+import { useSubmitListing } from "./hooks";
+import type { Draft } from "./types";
+import { asset, money } from "../../shared/formatters";
+import { PageHeading } from "../../components/PageHeading";
+import { Protection } from "../../components/Protection";
+import type { Category } from "../../features/listings/types";
+
 const steps = [
   "Category",
   "Details",
@@ -59,7 +56,6 @@ export default function Wizard() {
   const [mediaError, setMediaError] = useState("");
   const [draftSaved, setDraftSaved] = useState(false);
   const navigate = useNavigate();
-  const client = useQueryClient();
   const form = useForm<Draft>({
     resolver: zodResolver(draftSchema(category)),
     defaultValues: readDraft(),
@@ -120,47 +116,7 @@ export default function Wizard() {
       save();
     }
   };
-  const submit = useMutation({
-    mutationFn: async (d: Draft) => {
-      const attributes = Object.fromEntries(
-        categoryFields[d.category].map((f) => [f.label, d.details[f.key]]),
-      );
-      if (d.category === "watches")
-        attributes["Box & papers"] =
-          d.box && d.papers
-            ? "Full set"
-            : d.box
-              ? "Box only"
-              : d.papers
-                ? "Papers only"
-                : "Not included";
-      return api.createListing({
-        category: d.category,
-        title: `${d.details.brand} ${d.details.model}`,
-        subtitle:
-          d.category === "watches"
-            ? `${d.details.reference} · ${d.details.year}`
-            : `${d.details.set} · ${d.details.grader} ${d.details.grade}`,
-        brand: d.details.brand,
-        condition: d.details.condition || "Graded",
-        grade: d.details.grade,
-        price: d.price,
-        low,
-        high,
-        image: d.media[0],
-        sale: d.sale,
-        allowOffers: d.offers,
-        reservePrice: d.sale === "auction" ? d.reserve : undefined,
-        durationDays: d.sale === "auction" ? Number(d.duration) : undefined,
-        attributes,
-      });
-    },
-    onSuccess: () => {
-      sessionStorage.removeItem("atlas-draft-v1");
-      client.invalidateQueries({ queryKey: ["listings"] });
-      navigate("/seller?submitted=1");
-    },
-  });
+  const submit = useSubmitListing(() => navigate("/seller?submitted=1"));
   const upload = async (files: FileList | null) => {
     setMediaError("");
     if (!files) return;

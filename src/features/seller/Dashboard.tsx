@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Alert,
   Button,
@@ -11,16 +10,15 @@ import {
   TextField,
 } from "@mui/material";
 import { Add, ArrowForward } from "@mui/icons-material";
-import { PageHeading, Loading, ErrorPanel } from "../../components/Domain";
-import {
-  useListings,
-  useOffers,
-  useTransactions,
-  money,
-  asset,
-} from "../../shared/hooks";
-import { api } from "../../mocks/api";
-import type { Offer } from "../../shared/types";
+import { PageHeading } from "../../components/PageHeading";
+import { Loading } from "../../components/Loading";
+import { ErrorPanel } from "../../components/ErrorPanel";
+import { useListings } from "../../features/listings/hooks";
+import { useOffers, useOfferAction } from "../../features/offers/hooks";
+import { useTransactions } from "../../features/transactions/hooks";
+import { money, asset } from "../../shared/formatters";
+import type { Offer } from "../../features/offers/types";
+
 export default function Dashboard() {
   const listings = useListings();
   const offers = useOffers();
@@ -28,24 +26,7 @@ export default function Dashboard() {
   const [params] = useSearchParams();
   const [counter, setCounter] = useState<Offer | null>(null);
   const [amount, setAmount] = useState(44000);
-  const client = useQueryClient();
-  const action = useMutation({
-    mutationFn: ({
-      offer,
-      type,
-      amount,
-    }: {
-      offer: Offer;
-      type: "counter" | "accept" | "reject";
-      amount?: number;
-    }) => api.offerAction(offer.id, offer.version, type, amount),
-    onSuccess: () => {
-      setCounter(null);
-      client.invalidateQueries({ queryKey: ["offers"] });
-      client.invalidateQueries({ queryKey: ["listings"] });
-      client.invalidateQueries({ queryKey: ["transactions"] });
-    },
-  });
+  const action = useOfferAction(() => setCounter(null));
   if (listings.isPending || offers.isPending || transactions.isPending)
     return <Loading />;
   if (listings.isError || offers.isError || transactions.isError)
