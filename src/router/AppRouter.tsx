@@ -5,20 +5,14 @@ import { lazy, Suspense } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Loading } from "../components/Loading";
 
-const Home = lazy(() => import("../features/discovery/pages/HomePage"));
-const Browse = lazy(() => import("../features/discovery/pages/BrowsePage"));
-const Listing = lazy(() => import("../features/listings/pages/ListingPage"));
-const Auction = lazy(() => import("../features/auctions/pages/AuctionPage"));
-const Wizard = lazy(() => import("../features/seller/pages/SellerListingPage"));
-const Seller = lazy(
-  () => import("../features/seller/pages/SellerDashboardPage"),
-);
-const Checkout = lazy(
-  () => import("../features/transactions/pages/CheckoutPage"),
-);
-const Timeline = lazy(
-  () => import("../features/transactions/pages/TransactionTimelinePage"),
-);
+const Home = lazy(() => import("../pages/HomePage"));
+const Browse = lazy(() => import("../pages/BrowsePage"));
+const Listing = lazy(() => import("../pages/ListingPage"));
+const Auction = lazy(() => import("../pages/AuctionPage"));
+const Wizard = lazy(() => import("../pages/SellerListingPage"));
+const Seller = lazy(() => import("../pages/SellerDashboardPage"));
+const Checkout = lazy(() => import("../pages/CheckoutPage"));
+const Timeline = lazy(() => import("../pages/TransactionTimelinePage"));
 export function AppRouter() {
   const location = useLocation();
   return (

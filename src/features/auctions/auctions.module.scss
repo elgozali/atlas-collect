@@ -1,0 +1,10 @@
+@use "sass:meta";
+
+.root {
+  :global {
+    @include meta.load-css("../listings/styles/base");
+    @include meta.load-css("../listings/styles/responsive");
+    @include meta.load-css("./styles/base");
+    @include meta.load-css("./styles/responsive");
+  }
+}

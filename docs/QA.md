@@ -47,3 +47,11 @@ Sample data stays in the visitor's browser. No production backend or payment pro
 - Feature SCSS and responsive rules moved into their features. A before/after comparison preserves declaration histories for all 461 selector/media combinations.
 - Final strict build, 18 unit tests, formatting and whitespace checks pass. Native browser checks cover all eight route screens plus the not-found page; Buy Now, payment and timeline navigation also pass.
 - Desktop home and mobile seller layout were visually checked. The mobile page width matches its 390 px viewport, and no browser warnings or errors appeared.
+
+## SCSS modules and mock service split
+
+- Route pages now live exclusively under `src/pages`; every feature has an `index.ts` entry point and a named SCSS module. Feature adapters live in `services/`.
+- Feature module scopes also cover portaled dialogs/drawers and alternate confirmation/error states. Global styles are limited to foundations, app layout and shared components.
+- Mock implementations are split by feature; `mocks/api.ts` is only a compatibility facade. Persistence, realtime and reservations continue to use one authoritative database.
+- Final strict build, formatting and all 18 rule/schema tests pass after the mock split. Native buyer checks cover offer/counter, payment, module-styled confirmation and timeline navigation; fresh-preview auction checks cover extension, closure and winner checkout.
+- Mobile card submission passes through all seven wizard steps at 390 × 844; review waits for an explicit submit, and page width matches the viewport. The notification drawer carries its module scope and retains its 380 px styling within the mobile viewport.

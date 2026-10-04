@@ -4,7 +4,7 @@
 
 - `src/app`: small app composition, demo reset adapter and `layout/` for the shared page shell.
 - `src/providers`: theme, query and router providers, their composition, theme configuration and the query client.
-- `src/pages`: application-level route screens such as the not-found page; domain screens live in their feature’s `pages/` folder.
+- `src/pages`: all eight route screens and the not-found page. Pages render feature entry components.
 - `src/router`: route definitions, lazy screen loading and navigation side effects; error recovery lives in its own reusable component.
 - `src/features/discovery`: home, browse, URL-owned category/search, local filters and sorting.
 - `src/features/listings`: gallery, fixed-price listing and purchase orchestration.
@@ -16,16 +16,20 @@
 - `src/components`: one component per file for verification, valuation, protection, cards, trust details, headings, loading, errors and route recovery.
 - `src/utils`: pure asset/currency/date formatters.
 - `src/shared`: the small client UI store and common realtime subscription contract.
-- `src/styles`: global foundation/responsive styles and a single SCSS entrypoint. Feature, layout and component styles live alongside their owners.
-- `src/mocks`: seeded data and an asynchronous mock command/query service, with unit tests.
+- `src/styles`: global foundations plus shared component/layout styles. Features import their own scoped SCSS modules.
+- `src/mocks`: feature-specific command/query services, a shared core database/realtime layer and reservation helper, seeded data, and contract tests.
 
 ## Feature boundaries
 
-Features with domain operations own `api/`, `hooks/`, and `types/` folders. Each hook and domain type has its own named file; index files only re-export the public modules. API service implementations live under `api/`. Route screens live under feature `pages/`, embedded UI under `components/`, and seller validation under `schemas/`. Runtime transaction steps live under `constants/` rather than the types folder. Screens import their feature hooks; cross-feature screens reuse the owning domain hook and type instead of duplicating them. Discovery uses listing hooks, and the seller dashboard composes listing, offer and transaction hooks. Neither needs copies of those contracts. Seller drafts and submission payloads belong to the seller feature; converting a draft into a public listing is handled by its service.
+Every feature exposes an `index.ts` entry point. It exports the feature views and, where applicable, hooks and types. Implementation lives under `components/`, `hooks/`, `types/`, and `services/`; each hook and type has a named file. Seller validation lives in `schemas/`, and transaction step labels in `constants/`. Folders are added when they have a real responsibility: discovery composes listing hooks instead of duplicating the listing service and model.
 
-Feature services are the only feature modules that import the mock database. This common simulated backend keeps reservation, offer and auction rules consistent; it is not a global frontend API consumed by screens. The shared realtime adapter exposes event subscription, and `app/demo.ts` exposes reset for the shell. Replace feature service implementations when connecting a real backend.
+All route pages live in `src/pages/`. These thin route components import the feature entry point and render its view. `src/router/AppRouter.tsx` lazy-loads pages; features do not contain page folders. Providers wrap the app once from `main.tsx`, and `App.tsx` composes `AppLayout` with `AppRouter`.
 
-Styles use Sass via `src/styles/index.scss`. Each feature owns `styles/_base.scss` and, where required, `styles/_responsive.scss`; shared component styles live in `src/components/styles/`, and shell styles in `src/app/layout/styles/`. The entrypoint loads base styles before responsive overrides. A migration comparison confirms the declaration histories for all 461 selector/media combinations are unchanged. Material UI and its icons use v9.4.0; removed legacy `Outline` icon imports use `Outlined`.
+Feature client adapters live in `services/` and import their corresponding domain mock service directly. The mock `api.ts` is a small compatibility facade for contract tests, with no command logic inside it. Domain implementations live in `mocks/listings`, `mocks/auctions`, `mocks/offers`, `mocks/transactions`, `mocks/seller`, and `mocks/notifications`. `mocks/core` owns the shared browser database, seed initialization, persistence, response snapshots, simulated latency, errors and event subscriptions. A listing repository and transaction reservation helper keep cross-feature rules consistent without circular service imports.
+
+Each feature imports `featureName.module.scss`. Its local `root` class scopes descendant styles to that feature view. The module loads base/responsive partials inside that scope; existing descendant class names and MUI classes remain stable. Portaled dialogs and drawers receive the same module root so their styles stay scoped after leaving the view's DOM tree. Confirmation, loading and error branches also retain the feature scope. Auction views reuse listing gallery/layout partials inside the auction module's own scope.
+
+Only foundations, common components and the app layout remain globally styled. Feature modules are imported by their components and loaded with their route bundles. Material UI and icons remain on v9.4.0.
 
 ## Folder conventions
 
@@ -37,20 +41,23 @@ src/
       AppLayout.tsx
       styles/
   providers/
-    AppProviders.tsx
-    ThemeProvider.tsx
-    QueryProvider.tsx
-    RouterProvider.tsx
-    queryClient.ts
-    theme.ts
   router/
   pages/
+    HomePage.tsx
+    BrowsePage.tsx
+    ListingPage.tsx
+    AuctionPage.tsx
+    SellerListingPage.tsx
+    SellerDashboardPage.tsx
+    CheckoutPage.tsx
+    TransactionTimelinePage.tsx
     NotFoundPage.tsx
   features/
     auctions/
-      api/
-        auctionsService.ts
-        index.ts
+      index.ts
+      auctions.module.scss
+      components/
+        LiveAuction.tsx
       hooks/
         useAuction.ts
         useAuctionEvents.ts
@@ -61,20 +68,37 @@ src/
         Auction.ts
         Bid.ts
         index.ts
-      pages/
-        AuctionPage.tsx
+      services/
+        auctionsService.ts
+        index.ts
       styles/
         _base.scss
         _responsive.scss
-    # Other features follow the same conventions where needed.
+  mocks/
+    api.ts                 # Contract-test facade
+    api.test.ts
+    core/
+    listings/
+      service.ts
+      repository.ts
+    auctions/
+      service.ts
+    offers/
+      service.ts
+    transactions/
+      service.ts
+      reservations.ts
+    seller/
+      service.ts
+    notifications/
+      service.ts
   components/
   utils/
   shared/
   styles/
-  mocks/
 ```
 
-No empty placeholder folders are needed: discovery composes listing-domain hooks, while notifications and offers expose embedded UI rather than additional route pages. Imports within a feature can use its hook/type index; cross-feature consumers import the owning feature’s public folder. Providers wrap the app once from `main.tsx`. `App.tsx` combines `AppLayout` with `AppRouter`, and the layout renders routed children within the common header, footer and overlays.
+The other features follow the same conventions where needed. Global page files own routing boundaries; feature components own the experience. Hook/type subfolder exports allow domain consumers to reuse contracts without importing feature UI.
 
 ## State ownership
 
@@ -112,7 +136,7 @@ Sale method, offer permission, reserve and duration are retained with the submit
 
 The mock database is browser-local and persisted to localStorage when available; storage failures fall back to memory. Drafts use sessionStorage. Refresh preserves the demo database; reset starts over. Images uploaded into drafts are data URLs and may exceed browser storage capacity with multiple large images; session storage reports failures.
 
-This is a single-tab simulation with no cross-tab locking or synchronization. There is no real user login/RBAC/KYC, websocket server, payment processing, serial protection, TLS backend, upload scanning, queue/outbox or carrier integration. UI guards are not authorization. Replace `src/mocks/api.ts` with a typed HTTPS client and production realtime adapter to integrate Laravel; enforce every commercial rule again on the backend.
+This is a single-tab simulation with no cross-tab locking or synchronization. There is no real user login/RBAC/KYC, websocket server, payment processing, serial protection, TLS backend, upload scanning, queue/outbox or carrier integration. UI guards are not authorization. Replace the feature service adapters with typed HTTPS clients and the shared realtime adapter with a production connection to integrate Laravel; enforce every commercial rule again on the backend.
 
 ## Design and delivery
 

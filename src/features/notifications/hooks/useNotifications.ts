@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { notificationsApi } from "../api";
+import { notificationsApi } from "../services";
 
 export const useNotifications = () =>
   useQuery({

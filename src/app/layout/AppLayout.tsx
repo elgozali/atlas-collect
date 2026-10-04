@@ -1,3 +1,4 @@
+import { NotificationsDrawer } from "../../features/notifications";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -18,13 +19,11 @@ import {
   PersonOutlined,
   Menu,
   Close,
-  ArrowForward,
 } from "@mui/icons-material";
 import { subscribeToMarketplace } from "../../shared/realtime/service";
 import { resetDemo } from "../demo";
 import { useNotifications } from "../../features/notifications/hooks";
 import { queryClient } from "../../providers/queryClient";
-import { date } from "../../utils/formatters";
 import { useUI } from "../../shared/store";
 
 export function AppLayout({ children }: { children: ReactNode }) {
@@ -133,41 +132,10 @@ export function AppLayout({ children }: { children: ReactNode }) {
           <Link to="/seller">Seller studio</Link>
         </div>
       </Drawer>
-      <Drawer
-        anchor="right"
+      <NotificationsDrawer
         open={notifications}
         onClose={() => setNotifications(false)}
-      >
-        <div className="notification-drawer">
-          <div className="row">
-            <h2>Your updates</h2>
-            <IconButton
-              aria-label="Close notifications"
-              onClick={() => setNotifications(false)}
-            >
-              <Close />
-            </IconButton>
-          </div>
-          {notes.data?.length ? (
-            notes.data.map((n) => (
-              <Link
-                key={n.id}
-                to={n.link}
-                onClick={() => setNotifications(false)}
-              >
-                <b>{n.title}</b>
-                <p>{date(n.at)} GST</p>
-                <ArrowForward />
-              </Link>
-            ))
-          ) : (
-            <p>
-              Offers, bids and transaction updates will appear here as you
-              explore.
-            </p>
-          )}
-        </div>
-      </Drawer>
+      />
       <Dialog open={search} onClose={() => setSearch(false)} fullWidth>
         <DialogTitle>Find something exceptional.</DialogTitle>
         <DialogContent>

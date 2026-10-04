@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { offersApi } from "../api";
+import { offersApi } from "../services";
 import type { OfferActionInput } from "../types";
 import type { Transaction } from "../../transactions/types";
 

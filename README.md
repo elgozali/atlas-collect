@@ -67,7 +67,7 @@ This checkout is prepared locally. Creating a GitHub remote and publishing a pub
 
 ## Architecture and prototype boundaries
 
-Features use `api/`, `hooks/` (one file per hook), `types/`, `pages/` and `styles/` folders. Shared utilities live in `utils/`; app-wide providers in `providers/`; the shell in `app/layout/`. The root `pages/` folder holds app-level pages such as the routed not-found screen.
+All route screens live in `src/pages/` and render views exported by feature `index.ts` entry points. Features own their `components/`, `hooks/` (one file per hook), `types/`, `services/`, and named SCSS module. Shared utilities live in `utils/`, providers in `providers/`, and the shell in `app/layout/`. Mock commands are split by feature under `mocks/`, with persistence, realtime and reservation rules shared.
 
 See [Architecture](docs/ARCHITECTURE.md), [Demo and QA notes](docs/QA.md), and [Image sources](docs/ASSETS.md).
 

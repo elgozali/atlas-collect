@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { auctionsApi } from "../api";
+import { auctionsApi } from "../services";
 
 export function useBid(
   id: string,

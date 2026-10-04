@@ -1,3 +1,4 @@
+import styles from "../offers.module.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -59,7 +60,13 @@ export function OfferDialog({
   });
   useSimulatedSellerResponse(open, current, item.price);
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <Dialog
+      className={styles.root}
+      open={open}
+      onClose={onClose}
+      fullWidth
+      maxWidth="sm"
+    >
       <DialogTitle>
         {current?.status === "countered" && !editing
           ? "A counteroffer from the seller"

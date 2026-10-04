@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { offersApi } from "../api";
+import { offersApi } from "../services";
 import type { Offer } from "../types";
 import { useEffect } from "react";
 

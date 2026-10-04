@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { transactionsApi } from "../api";
+import { transactionsApi } from "../services";
 import type { CheckoutValues } from "../types";
 
 export function usePayment(id: string) {

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { transactionsApi } from "../api";
+import { transactionsApi } from "../services";
 
 export const useTransaction = (id: string) =>
   useQuery({

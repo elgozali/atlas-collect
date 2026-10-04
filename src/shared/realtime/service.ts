@@ -1,3 +1,1 @@
-import { api } from "../../mocks/api";
-
-export const subscribeToMarketplace = api.subscribe;
+export { subscribeToMarketplace } from "../../mocks/core/realtime";
