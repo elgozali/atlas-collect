@@ -1,0 +1,14 @@
+@media (max-width: 760px) {
+  .MuiDialogContent-root {
+    padding: 18px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

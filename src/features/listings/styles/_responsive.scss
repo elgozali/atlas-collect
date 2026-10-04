@@ -1,0 +1,90 @@
+@media (max-width: 1100px) {
+  .listing-layout {
+    gap: 35px;
+  }
+  .gallery-main {
+    height: 500px;
+  }
+  .purchase-panel h1 {
+    font-size: 32px;
+  }
+}
+@media (max-width: 760px) {
+  .listing-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-bottom: 30px;
+  }
+  .gallery-main {
+    height: 390px;
+  }
+  .gallery-main.cards img {
+    padding: 34px;
+  }
+  .gallery-thumbs {
+    gap: 10px;
+  }
+  .gallery-thumbs button {
+    height: 65px;
+    width: 85px;
+  }
+  .image-note {
+    font-size: 9px;
+  }
+  .purchase-panel {
+    position: static;
+    grid-row: 2;
+  }
+  .purchase-panel h1 {
+    font-size: 34px;
+  }
+  .purchase-actions {
+    position: sticky;
+    bottom: 10px;
+    z-index: 3;
+    background: #fffffff0;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    grid-template-columns: 1fr 1fr;
+    margin-left: -5px;
+    margin-right: -5px;
+  }
+  .purchase-actions .MuiButton-root {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  .back-link.MuiButton-root {
+    margin: 20px 0;
+  }
+}
+
+.listing-layout > .trust-details {
+  grid-column: 1;
+  grid-row: 2;
+  margin-top: 0;
+}
+.listing-layout > .purchase-panel,
+.listing-layout > .auction-info {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+.gallery-main.watches img {
+  object-fit: contain;
+  padding: 20px;
+}
+@media (max-width: 760px) {
+  .listing-layout > .trust-details {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .listing-layout > .purchase-panel,
+  .listing-layout > .auction-info {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+.gallery-main.watches img {
+  mix-blend-mode: multiply;
+}

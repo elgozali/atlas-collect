@@ -39,3 +39,11 @@ Sample data stays in the visitor's browser. No production backend or payment pro
 - SCSS compilation, strict TypeScript production build, all 18 unit tests, formatting and whitespace checks pass. Dependency audit reports zero vulnerabilities.
 - Native browser rechecks pass for buyer offer/counter/payment/timeline navigation and auction anti-sniping/winner checkout. Mobile seller submission and overflow are checked at 390 × 844.
 - Playwright regression tests remain available for CI; this refactor was verified locally through the native browser and unit/build checks.
+
+## Folder refinement verification
+
+- Hooks and types are individual modules under feature folders; API services, pages, embedded components, schemas and runtime constants have dedicated folders.
+- Utilities, providers and app layout have explicit ownership. The root pages folder contains the routed not-found page.
+- Feature SCSS and responsive rules moved into their features. A before/after comparison preserves declaration histories for all 461 selector/media combinations.
+- Final strict build, 18 unit tests, formatting and whitespace checks pass. Native browser checks cover all eight route screens plus the not-found page; Buy Now, payment and timeline navigation also pass.
+- Desktop home and mobile seller layout were visually checked. The mobile page width matches its 390 px viewport, and no browser warnings or errors appeared.

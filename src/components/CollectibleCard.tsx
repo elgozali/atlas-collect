@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Listing } from "../features/listings/types";
-import { asset, money } from "../shared/formatters";
+import { asset, money } from "../utils/formatters";
 import { SaveButton } from "./SaveButton";
 import { Verified } from "./Verified";
 

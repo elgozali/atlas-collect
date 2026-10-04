@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { ArrowForward, Close } from "@mui/icons-material";
 import type { Listing } from "../features/listings/types";
-import { money } from "../shared/formatters";
+import { money } from "../utils/formatters";
 
 export function Valuation({ item }: { item: Listing }) {
   const [open, setOpen] = useState(false);

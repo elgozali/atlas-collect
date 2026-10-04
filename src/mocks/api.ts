@@ -5,7 +5,7 @@ import type { MarketplaceEvent } from "../shared/realtime/types";
 import type { Notification } from "../features/notifications/types";
 import type { Offer } from "../features/offers/types";
 import type { Transaction } from "../features/transactions/types";
-import { transactionSteps } from "../features/transactions/types";
+import { transactionSteps } from "../features/transactions/constants/transactionSteps";
 
 export class DomainError extends Error {
   constructor(

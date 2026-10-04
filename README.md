@@ -67,6 +67,8 @@ This checkout is prepared locally. Creating a GitHub remote and publishing a pub
 
 ## Architecture and prototype boundaries
 
+Features use `api/`, `hooks/` (one file per hook), `types/`, `pages/` and `styles/` folders. Shared utilities live in `utils/`; app-wide providers in `providers/`; the shell in `app/layout/`. The root `pages/` folder holds app-level pages such as the routed not-found screen.
+
 See [Architecture](docs/ARCHITECTURE.md), [Demo and QA notes](docs/QA.md), and [Image sources](docs/ASSETS.md).
 
 All commercial interactions are **simulated**. No real authentication provider, backend, verification service, payment processor or shipping carrier is connected. The mock command layer represents the production contract; it is not a security boundary. Each visitor gets their own sample state.

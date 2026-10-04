@@ -2,7 +2,9 @@
 
 ## Responsibilities
 
-- `src/app`: app shell, query client, demo reset adapter, theme and SCSS entrypoint/partials.
+- `src/app`: small app composition, demo reset adapter and `layout/` for the shared page shell.
+- `src/providers`: theme, query and router providers, their composition, theme configuration and the query client.
+- `src/pages`: application-level route screens such as the not-found page; domain screens live in their feature’s `pages/` folder.
 - `src/router`: route definitions, lazy screen loading and navigation side effects; error recovery lives in its own reusable component.
 - `src/features/discovery`: home, browse, URL-owned category/search, local filters and sorting.
 - `src/features/listings`: gallery, fixed-price listing and purchase orchestration.
@@ -12,16 +14,67 @@
 - `src/features/transactions`: checkout, confirmation, lifecycle, inspection and disputes.
 - `src/features/notifications`: notification types, service and polling hook.
 - `src/components`: one component per file for verification, valuation, protection, cards, trust details, headings, loading, errors and route recovery.
-- `src/shared`: pure asset/currency/date formatters, the small client UI store, and the common realtime subscription contract. Domain models and query/mutation hooks live in their owning feature.
+- `src/utils`: pure asset/currency/date formatters.
+- `src/shared`: the small client UI store and common realtime subscription contract.
+- `src/styles`: global foundation/responsive styles and a single SCSS entrypoint. Feature, layout and component styles live alongside their owners.
 - `src/mocks`: seeded data and an asynchronous mock command/query service, with unit tests.
 
 ## Feature boundaries
 
-Features with domain operations own `api.ts`, `hooks.ts`, and `types.ts`. Screens import their feature hooks; cross-feature screens reuse the owning domain hook and type instead of duplicating them. Discovery uses listing hooks, and the seller dashboard composes listing, offer and transaction hooks. Neither needs copies of those contracts. Seller drafts and submission payloads belong to the seller feature; converting a draft into a public listing is handled by its service.
+Features with domain operations own `api/`, `hooks/`, and `types/` folders. Each hook and domain type has its own named file; index files only re-export the public modules. API service implementations live under `api/`. Route screens live under feature `pages/`, embedded UI under `components/`, and seller validation under `schemas/`. Runtime transaction steps live under `constants/` rather than the types folder. Screens import their feature hooks; cross-feature screens reuse the owning domain hook and type instead of duplicating them. Discovery uses listing hooks, and the seller dashboard composes listing, offer and transaction hooks. Neither needs copies of those contracts. Seller drafts and submission payloads belong to the seller feature; converting a draft into a public listing is handled by its service.
 
 Feature services are the only feature modules that import the mock database. This common simulated backend keeps reservation, offer and auction rules consistent; it is not a global frontend API consumed by screens. The shared realtime adapter exposes event subscription, and `app/demo.ts` exposes reset for the shell. Replace feature service implementations when connecting a real backend.
 
-Styles use Sass via `src/app/styles.scss`, with ordered partials under `src/app/styles/` for foundations, layouts, components, feature screens and responsive overrides. The cascade order is preserved. Material UI and its icons use v9.4.0; removed legacy `Outline` icon imports use `Outlined`.
+Styles use Sass via `src/styles/index.scss`. Each feature owns `styles/_base.scss` and, where required, `styles/_responsive.scss`; shared component styles live in `src/components/styles/`, and shell styles in `src/app/layout/styles/`. The entrypoint loads base styles before responsive overrides. A migration comparison confirms the declaration histories for all 461 selector/media combinations are unchanged. Material UI and its icons use v9.4.0; removed legacy `Outline` icon imports use `Outlined`.
+
+## Folder conventions
+
+```text
+src/
+  app/
+    App.tsx
+    layout/
+      AppLayout.tsx
+      styles/
+  providers/
+    AppProviders.tsx
+    ThemeProvider.tsx
+    QueryProvider.tsx
+    RouterProvider.tsx
+    queryClient.ts
+    theme.ts
+  router/
+  pages/
+    NotFoundPage.tsx
+  features/
+    auctions/
+      api/
+        auctionsService.ts
+        index.ts
+      hooks/
+        useAuction.ts
+        useAuctionEvents.ts
+        useAuctionScenario.ts
+        useBid.ts
+        index.ts
+      types/
+        Auction.ts
+        Bid.ts
+        index.ts
+      pages/
+        AuctionPage.tsx
+      styles/
+        _base.scss
+        _responsive.scss
+    # Other features follow the same conventions where needed.
+  components/
+  utils/
+  shared/
+  styles/
+  mocks/
+```
+
+No empty placeholder folders are needed: discovery composes listing-domain hooks, while notifications and offers expose embedded UI rather than additional route pages. Imports within a feature can use its hook/type index; cross-feature consumers import the owning feature’s public folder. Providers wrap the app once from `main.tsx`. `App.tsx` combines `AppLayout` with `AppRouter`, and the layout renders routed children within the common header, footer and overlays.
 
 ## State ownership
 
