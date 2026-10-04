@@ -64,3 +64,11 @@ Sample data stays in the visitor's browser. No production backend or payment pro
 - Strict production build, formatting, whitespace checks and all 18 rule/schema tests pass.
 - Native browser checks confirm fixed-price offer/counter/payment/confirmation/timeline, auction outbid/extension/closure/winner checkout, and a seven-step mobile card submission. Mobile notification styling remains 380 px within a 390 px viewport. No browser errors appeared.
 - Desktop and mobile styles were visually checked, including 1440 px auction/timeline layouts and the 390 px seller review; page widths match their viewports.
+
+## Final unused-code cleanup
+
+- All application source files remain reachable from the app, lazy routes or test entry points. TypeScript enforces unused-import and unused-variable checks.
+- Removed the mock API compatibility facade; command contract tests now call each feature's mock service directly. Mock command implementations and the internal seller adapter no longer expose unused named exports.
+- Removed redundant SCSS category exports, the empty legacy `src/lib` directory, the stale browser-test report and unreferenced documentation screenshots.
+- All declared runtime and development packages are required by the app, tooling, tests or TypeScript. Emotion packages remain required MUI peers; no extraneous installed packages were found.
+- All 18 tests, the strict production build, formatting and whitespace checks pass.

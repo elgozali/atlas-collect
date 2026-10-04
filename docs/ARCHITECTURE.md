@@ -25,7 +25,7 @@ Every feature exposes an `index.ts` entry point. It exports the feature views an
 
 All route pages live in `src/pages/`. These thin route components import the feature entry point and render its view. `src/router/AppRouter.tsx` lazy-loads pages; features do not contain page folders. Providers wrap the app once from `main.tsx`, and `App.tsx` composes `AppLayout` with `AppRouter`.
 
-Feature client adapters live in `services/` and import their corresponding domain mock service directly. The mock `api.ts` is a small compatibility facade for contract tests, with no command logic inside it. Domain implementations live in `mocks/listings`, `mocks/auctions`, `mocks/offers`, `mocks/transactions`, `mocks/seller`, and `mocks/notifications`. `mocks/core` owns the shared browser database, seed initialization, persistence, response snapshots, simulated latency, errors and event subscriptions. A listing repository and transaction reservation helper keep cross-feature rules consistent without circular service imports.
+Feature client adapters live in `services/` and import their corresponding domain mock service directly. Contract tests call the domain mock services directly. Domain implementations live in `mocks/listings`, `mocks/auctions`, `mocks/offers`, `mocks/transactions`, `mocks/seller`, and `mocks/notifications`. `mocks/core` owns the shared browser database, seed initialization, persistence, response snapshots, simulated latency, errors and event subscriptions. A listing repository and transaction reservation helper keep cross-feature rules consistent without circular service imports.
 
 Each feature has one `featureName.module.scss` containing its styles and responsive rules. There are no feature `styles/` folders or base/responsive partials. Components live in their own folders with a matching `ComponentName.module.scss`; reusable components own their complete styling, while feature view modules provide a root container and their feature module owns the experience's styling.
 
@@ -64,8 +64,7 @@ src/
       services/
         auctionsService.ts
   mocks/
-    api.ts                    # Contract-test facade
-    api.test.ts
+    commands.test.ts          # Domain command and state contracts
     core/
     listings/
     auctions/

@@ -4,17 +4,17 @@ import { database, persistDatabase } from "../core/database";
 import { snapshot, simulateLatency } from "../core/response";
 import { reserveListing } from "../transactions/reservations";
 
-export async function getListings() {
+async function getListings() {
   await simulateLatency();
   return snapshot(database.listings);
 }
 
-export async function getListing(id: string) {
+async function getListing(id: string) {
   await simulateLatency();
   return snapshot(findListing(id));
 }
 
-export async function purchase(id: string, key: string) {
+async function purchase(id: string, key: string) {
   await simulateLatency();
   if (database.commands[key]) {
     return snapshot(database.commands[key] as Transaction);

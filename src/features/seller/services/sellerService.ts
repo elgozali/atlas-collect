@@ -3,7 +3,7 @@ import { categoryFields } from "../schemas/listingSchema";
 import type { Draft } from "../types/Draft";
 import type { CreateListingInput } from "../types/CreateListingInput";
 
-export const sellerApi = {
+const sellerApi = {
   createListing: (input: CreateListingInput) =>
     mockSellerService.createListing(input),
 };

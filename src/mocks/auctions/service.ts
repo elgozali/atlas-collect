@@ -79,7 +79,7 @@ function settleAuction() {
   return snapshot(auction);
 }
 
-export async function getAuction() {
+async function getAuction() {
   await simulateLatency();
   if (
     database.auction.status === "live" &&
@@ -90,7 +90,7 @@ export async function getAuction() {
   return { ...snapshot(database.auction), serverTime: Date.now() };
 }
 
-export async function bid(amount: number, key: string) {
+async function bid(amount: number, key: string) {
   await simulateLatency();
   if (database.commands[key]) {
     return snapshot(database.commands[key] as Auction);
@@ -101,17 +101,17 @@ export async function bid(amount: number, key: string) {
   return auction;
 }
 
-export async function competitor() {
+async function competitor() {
   await simulateLatency();
   return commitBid(database.auction.minimumNextBid, "Collector 143");
 }
 
-export async function closeAuction() {
+async function closeAuction() {
   await simulateLatency();
   return settleAuction();
 }
 
-export async function finalWindow() {
+async function finalWindow() {
   await simulateLatency();
   if (database.auction.status === "closed") {
     throw new DomainError(

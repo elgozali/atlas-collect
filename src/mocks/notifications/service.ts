@@ -9,7 +9,7 @@ export const addNotification = (title: string, link: string) =>
     at: Date.now(),
   });
 
-export async function getNotifications() {
+async function getNotifications() {
   await simulateLatency();
   return snapshot(database.notifications);
 }

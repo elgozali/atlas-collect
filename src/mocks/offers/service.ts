@@ -8,12 +8,12 @@ import { reserveListing } from "../transactions/reservations";
 
 const OFFER_LIFETIME_MS = 24 * 60 * 60 * 1000;
 
-export async function getOffers() {
+async function getOffers() {
   await simulateLatency();
   return snapshot(database.offers);
 }
 
-export async function offer(id: string, amount: number) {
+async function offer(id: string, amount: number) {
   await simulateLatency();
   if (findListing(id).status !== "active") {
     throw new DomainError(
@@ -45,7 +45,7 @@ export async function offer(id: string, amount: number) {
   return snapshot(offerRecord);
 }
 
-export async function offerAction(
+async function offerAction(
   id: string,
   version: number,
   action: "counter" | "accept" | "reject",

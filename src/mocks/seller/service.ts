@@ -4,7 +4,7 @@ import { database, persistDatabase } from "../core/database";
 import { snapshot, simulateLatency } from "../core/response";
 import { addNotification } from "../notifications/service";
 
-export async function createListing(
+async function createListing(
   input: Omit<Listing, "id" | "status" | "verified" | "seller">,
 ) {
   await simulateLatency();

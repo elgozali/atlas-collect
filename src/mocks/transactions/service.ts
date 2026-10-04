@@ -7,7 +7,7 @@ import { findListing } from "../listings/repository";
 
 const INSPECTION_DURATION_MS = 48 * 60 * 60 * 1000;
 
-export async function getTransaction(id: string) {
+async function getTransaction(id: string) {
   await simulateLatency();
   const transaction = database.transactions.find((record) => record.id === id);
   if (!transaction) {
@@ -19,12 +19,12 @@ export async function getTransaction(id: string) {
   return snapshot(transaction);
 }
 
-export async function getTransactions() {
+async function getTransactions() {
   await simulateLatency();
   return snapshot(database.transactions);
 }
 
-export async function pay(id: string, address: string) {
+async function pay(id: string, address: string) {
   await simulateLatency();
   const transaction = database.transactions.find((record) => record.id === id);
   if (!transaction) {
@@ -44,7 +44,7 @@ export async function pay(id: string, address: string) {
   return snapshot(transaction);
 }
 
-export async function advance(id: string) {
+async function advance(id: string) {
   await simulateLatency();
   const transaction = database.transactions.find((record) => record.id === id);
   if (
@@ -70,7 +70,7 @@ export async function advance(id: string) {
   return snapshot(transaction);
 }
 
-export async function acceptInspection(id: string) {
+async function acceptInspection(id: string) {
   await simulateLatency();
   const transaction = database.transactions.find((record) => record.id === id);
   if (
@@ -88,7 +88,7 @@ export async function acceptInspection(id: string) {
   return snapshot(transaction);
 }
 
-export async function dispute(id: string, reason: string) {
+async function dispute(id: string, reason: string) {
   await simulateLatency();
   const transaction = database.transactions.find((record) => record.id === id);
   if (
