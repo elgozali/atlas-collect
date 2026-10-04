@@ -149,7 +149,7 @@ export default function LiveAuction() {
                 <b>{clock}</b>
               </div>
             </div>
-            <div aria-live="polite">
+            <div className={featureStyles.auctionStatus} aria-live="polite">
               {announcement && (
                 <Alert
                   severity={a.highestBidder === "You" ? "success" : "warning"}
@@ -157,8 +157,9 @@ export default function LiveAuction() {
                   {announcement}
                 </Alert>
               )}
-              {a.transactionId && (
+              {closed && a.transactionId && (
                 <Button
+                  fullWidth
                   variant="contained"
                   component={Link}
                   to={`/checkout/${a.transactionId}`}
@@ -173,32 +174,36 @@ export default function LiveAuction() {
                 </Alert>
               )}
             </div>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                bid.mutate();
-              }}
-            >
-              <TextField
-                label="Your bid (AED)"
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(Number(e.target.value))}
-                helperText={`Minimum next bid ${money(a.minimumNextBid)}`}
-                slotProps={{
-                  htmlInput: { min: a.minimumNextBid, step: 500 },
+            {!closed && (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  bid.mutate();
                 }}
-              />
-              <Button
-                fullWidth
-                variant="contained"
-                type="submit"
-                disabled={closed || bid.isPending}
               >
-                {bid.isPending ? "Submitting bid…" : "Place bid"}
-              </Button>
-            </form>
-            {bid.error && <Alert severity="error">{bid.error.message}</Alert>}
+                <TextField
+                  label="Your bid (AED)"
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(Number(e.target.value))}
+                  helperText={`Minimum next bid ${money(a.minimumNextBid)}`}
+                  slotProps={{
+                    htmlInput: { min: a.minimumNextBid, step: 500 },
+                  }}
+                />
+                <Button
+                  fullWidth
+                  variant="contained"
+                  type="submit"
+                  disabled={bid.isPending}
+                >
+                  {bid.isPending ? "Submitting bid…" : "Place bid"}
+                </Button>
+              </form>
+            )}
+            {!closed && bid.error && (
+              <Alert severity="error">{bid.error.message}</Alert>
+            )}
             <p className={common.subtle}>
               Bids are binding in the product concept. This prototype uses
               simulated realtime and no real money.

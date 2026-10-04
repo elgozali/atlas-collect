@@ -47,6 +47,17 @@
 .auctionPanel :global(.MuiAlert-root) {
   margin-bottom: 18px;
 }
+.auctionStatus {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.auctionStatus:empty {
+  display: none;
+}
+.auctionStatus :global(.MuiAlert-root) {
+  margin-bottom: 0;
+}
 .auctionPanel form {
   display: grid;
   gap: 10px;
