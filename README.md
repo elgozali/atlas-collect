@@ -57,7 +57,6 @@ The footer's **Reset demo** restores the sample data, clears the draft, and retu
 The application uses **hash routing**, so deep links and refreshes work on static hosting without rewrite rules. Every route sits after `/#/`. Assets are local and use Vite's configured base path; fonts are self-hosted.
 
 - **Vercel:** Import this repository. Vite is detected; `vercel.json` sets build/output.
-- **Netlify:** Import this repository. `netlify.toml` sets Node 22, `npm run build`, and `dist`.
 - **GitHub Pages:** In repository Settings → Pages choose **GitHub Actions**. Run the included **Publish GitHub Pages** workflow manually. It sets `VITE_BASE_PATH` to the repository name and deploys `dist`. For a user/organization root site or custom domain, use `/` for the base instead.
 - **Any static host:** Run `npm run build` and upload the contents of `dist`.
 
