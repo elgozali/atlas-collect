@@ -1,48 +1,113 @@
 # Architecture
 
-## Structure
+Atlas Collect is a React/TypeScript frontend prototype built with Vite, Material UI and SCSS Modules.
 
-| Folder           | Responsibility                                                                 |
-| ---------------- | ------------------------------------------------------------------------------ |
-| `src/app`        | App composition, shared layout, and demo reset                                 |
-| `src/providers`  | Theme, query, and router providers                                             |
-| `src/router`     | Lazy routes and navigation effects                                             |
-| `src/pages`      | Route entry components                                                         |
-| `src/features`   | Discovery, listings, auctions, offers, seller, transactions, and notifications |
-| `src/components` | Reusable UI components                                                         |
-| `src/shared`     | UI store and realtime adapter                                                  |
-| `src/utils`      | Asset, currency, and date formatters                                           |
-| `src/styles`     | Global foundations and shared style utilities                                  |
-| `src/mocks`      | Feature mock services, shared database, and command tests                      |
+Marketplace operations run through a browser-local simulation. There is no live backend, user authentication service, payment processor or network API in this repository.
 
-Features keep components, hooks, services, and types in separate folders, with schemas and constants where needed. Each feature's `index.ts` exports only what other parts of the app consume. Internal imports reference individual files.
+## Frontend structure
 
-Components have their own folders and SCSS Modules. Feature modules include responsive rules; global base and responsive styles live in `src/styles`. JSX uses module references and `classnames` for conditional styles. Module filenames must be unique because the scoped class format is `ModuleName__className`.
+| Folder | Responsibility |
+| --- | --- |
+| `src/app` | App composition, shared layout and demo reset |
+| `src/providers` | Theme, TanStack Query and router providers |
+| `src/router` | Lazy routes, loading/error boundaries and navigation effects |
+| `src/pages` | Route entry components |
+| `src/features` | Discovery, listings, auctions, offers, seller, transactions and notifications |
+| `src/components` | Reusable cross-feature UI |
+| `src/shared` | Shared UI state and realtime subscription adapter/types |
+| `src/utils` | Asset paths, AED prices and Dubai date formatting |
+| `src/styles` | Global SCSS foundations and shared style utilities |
+| `src/mocks` | Seed data, persistence, simulated services/events and command tests |
 
-## State
+Features expose selected components, hooks and types through `index.ts` entry points, with supporting services, schemas and styles colocated where needed.
 
-- **TanStack Query:** listings, bids, offers, transactions, and notifications.
-- **Zustand:** saved items and comparison selections.
-- **React Hook Form and Zod:** seller and checkout forms, with category-specific validation.
-- **URL:** category and search parameters.
-- **Component state:** dialogs, filters, gallery selection, and wizard steps.
+## State ownership
 
-The mock database persists in `localStorage`; seller drafts use `sessionStorage`. Reset restores the seed data and clears drafts and UI selections.
+- **TanStack Query** manages listings, the demo auction (including bids), offers, transactions and notifications. Mutations update or invalidate caches.
+- **Zustand** stores saved listing IDs and comparison selections (up to three), persisted in `localStorage`.
+- **React Hook Form + Zod** handle seller drafts, checkout delivery/consent fields and offer amounts. Other action inputs use local state.
+- **URL state** stores browse category and search parameters (`category`, `q`) inside hash routes.
+- **Local component state** handles other filters, sorting, dialogs, galleries and wizard steps.
 
-## Services and realtime
+The demo database persists in `localStorage`, with an in-memory fallback if storage is unavailable. Seller drafts are saved to `sessionStorage` through the wizard's save/step actions. Neither storage mechanism is a security boundary.
 
-Feature service adapters call their corresponding mock services. The shared mock core handles persistence, latency, snapshots, errors, and events. Reservation rules are shared between purchases and accepted offers.
+There is no implemented cross-tab or cross-device synchronization.
 
-Bids and purchases support idempotency keys. Offers use version checks. Reservations prevent an item from being sold twice. Auction events carry versioned snapshots; subscriptions apply newer versions, with periodic queries providing recovery. Bids placed in the final two minutes extend the deadline to two minutes from the accepted bid.
+## Service boundary
 
-To connect a backend, replace the feature service adapters and shared realtime adapter. The backend must enforce reservation, bidding, payment, and authorization rules.
+Feature hooks call adapters that delegate directly to mock services; components do not manipulate the database.
 
-## Transactions and listings
+```text
+React feature → Feature adapter → Mock service
+```
 
-Transactions progress through payment, authentication, shipping, delivery, inspection, and completion. Payment is required before fulfilment. The inspection window is 48 hours; accepting the item completes the transaction, while reporting an issue pauses it as disputed.
+The adapters are replacement points for a future backend transport layer. A separate app-level bridge exposes demo reset.
 
-Seller fields depend on the category. Media is required, and an auction reserve cannot be below the starting bid. Private serial and certificate values stay in the session draft and are excluded from public listing payloads. Submitted listings remain pending review and cannot be purchased.
+## Marketplace behaviour
 
-## Limits
+### Reservations and offers
 
-The simulation runs within one browser tab and has no cross-tab synchronization. Authentication, physical verification, payment processing, shipping integrations, automated inspection settlement, and dispute resolution require backend services.
+Buy Now, accepted offers and the demo user's auction win share a synchronous reservation function. Within one browser runtime, it checks that a listing is active before reserving it and creating a transaction, preventing duplicate reservations. This guarantee does not extend across tabs or clients.
+
+Offer actions check the supplied version, offer state, expiry and current listing availability before applying changes. Offers expire after 24 hours; expiry is checked on an attempted action rather than by a background process.
+
+### Auctions
+
+The seeded Charizard auction supports manual bidding, simulated competing bids, AED 500 minimum increments, a final-window scenario and manual close. A bid within the final two minutes resets the remaining time to two minutes. An expired auction settles when the auction service is read; a demo-user win creates a transaction.
+
+Auction events are simulated in-process. The event subscriber accepts only newer versions into the query cache; this check does not cover every query or mutation response. A ten-second query refresh provides recovery while the auction query is active. Events also invalidate related listing and notification caches.
+
+This is not a WebSocket implementation or general marketplace synchronization.
+
+### Idempotency
+
+Bid and purchase services return stored results for repeated caller-supplied command keys. These results are persisted with the demo database. The shared key map does not validate operation/payload identity or expire entries, so it models a limited retry contract rather than production distributed idempotency.
+
+## Transactions
+
+Buy Now, accepted offers and the demo user's auction win converge into the same simulated lifecycle:
+
+```text
+Purchase confirmed → Payment secured → Received for authentication
+    → Authentication passed → In transit → Delivered → Inspection
+    → Complete / Disputed
+```
+
+Every simulated transaction includes collectible authentication; this is distinct from user sign-in. Demo controls advance fulfilment through guarded steps. Accepting inspection marks the transaction completed and the listing sold; opening a dispute blocks completion.
+
+Inspection records and displays a 48-hour deadline, but the prototype does not enforce that deadline or automatically complete transactions. No real funds, escrow, settlement, shipping or dispute-resolution systems are connected.
+
+## Categories and seller listings
+
+Luxury Watches and Trading Cards share listing and negotiation flows. Seller field definitions drive category-specific inputs and required-detail validation. Some browse filters, trust content and valuation behaviour use category-specific branches. Valuation ranges and comparable sales are illustrative.
+
+The seller form validates required details, private serial/certificate input, image presence, price and the auction reserve relationship; upload controls check file type, size and count. This is client-side validation, not verification of authenticity or complete service-side validation of every field.
+
+Private serial/certificate values remain in browser draft data and are omitted from the submitted listing. Submission retains the first image and creates an unverified listing with `review` status, excluded from browse and unavailable for purchase. No review-to-active approval transition or live auction creation for seller submissions is implemented.
+
+## Deployment
+
+The project builds to a static `dist` bundle and uses hash routing, so static hosting does not require route rewrites. Vercel configuration and a manually triggered GitHub Pages build/deploy workflow are included; the latter sets Vite's repository base path.
+
+These files configure deployment, but do not establish whether a public deployment exists. The application does not provision backend infrastructure or cloud services.
+
+## Proposed production architecture
+
+The following is **proposed only and is not implemented in this repository**. Laravel, MySQL, AWS services and WebSocket transport are future design options.
+
+```text
+React / Vite → Laravel REST API → AWS RDS MySQL
+
+Supporting services
+├─ Redis             cache / realtime coordination
+├─ AWS SQS           asynchronous work
+├─ AWS S3/CloudFront  media and frontend delivery
+├─ WebSockets        committed-state event delivery
+└─ External          payments / KYC / collectible authentication / shipping
+```
+
+In production, MySQL would hold authoritative commercial state. Laravel would enforce user authentication, authorization, validation and transaction rules. Reservations would be atomic across clients, idempotency durable and deadlines enforced server-side. Realtime events would follow committed state changes; frontend controls and browser storage would not be trusted as security boundaries.
+
+## Prototype limits
+
+The prototype does not implement live user authentication/authorization, a Laravel/MySQL backend, distributed synchronization, WebSockets, real payments or KYC, physical collectible authentication, shipping integrations, automatic inspection settlement, listing approval workflows or operational dispute resolution.

@@ -1,12 +1,57 @@
 # Atlas Collect
 
-An interactive marketplace prototype for luxury watches and trading cards, with fixed-price purchases, live auctions, and seller listing flows.
+**Authenticated collectibles. Transparent value. Confident trading.**
 
-Built with React, TypeScript, Vite, Material UI, SCSS Modules, React Router, TanStack Query, Zustand, React Hook Form, and Zod.
+Atlas Collect is an interactive marketplace concept for discovering, valuing, buying and selling authenticated high-value collectibles.
+
+The prototype was created for the Greenstone Senior Frontend Engineer assignment and explores product thinking, frontend architecture, simulated realtime marketplace interactions, transparent valuation, trust and protected transactions across **Luxury Watches** and **Trading Cards**.
+
+**Live prototype:** _Add public deployment URL_
+
+- [Architecture](docs/ARCHITECTURE.md)
+- [Demo and testing](docs/QA.md)
+- [Image sources](docs/ASSETS.md)
+
+## Tech stack
+
+React · TypeScript · Vite · Material UI · SCSS Modules · React Router · TanStack Query · Zustand · React Hook Form · Zod
+
+## Core experiences
+
+The prototype covers eight primary marketplace experiences:
+
+| Experience | Route |
+| --- | --- |
+| Marketplace home | `/#/` |
+| Browse, search, filters and comparison | `/#/marketplace` |
+| Fixed-price watch listing | `/#/listings/rolex` |
+| Live trading-card auction | `/#/auctions/charizard` |
+| Seller listing wizard | `/#/sell` |
+| Seller dashboard and offers | `/#/seller` |
+| Checkout and confirmation | `/#/checkout/:transactionId` |
+| Protected transaction timeline | `/#/transactions/:transactionId` |
+
+Supporting interactions such as comparables, offers, counteroffers, image inspection, notifications and disputes are handled through dialogs and drawers within these experiences.
+
+## Product flows
+
+### Fixed-price buyer
+
+Browse → Evaluate valuation and provenance → Buy Now or Make an Offer → Negotiate → Secure payment → Authentication → Delivery → Inspection → Completion or dispute.
+
+### Live auction
+
+Discover auction → Place bid → Receive realtime competing bids → Bid again → Late-bid extension → Auction close → Winner checkout.
+
+### Seller
+
+Choose category → Enter category-specific details → verification information → Add media → Review Atlas valuation → Choose sale method → Review → Submit → Manage listing and offers.
+
+Use **Reset demo** in the footer to restore the original sample state between walkthroughs.
 
 ## Getting started
 
-Requires Node.js 22.12 or later.
+Requires Node.js **22.12 or later**.
 
 ```sh
 npm ci
@@ -33,28 +78,63 @@ Install the browser before running end-to-end tests:
 npx playwright install chromium
 ```
 
-## Features
+## Architecture
 
-- Browse watches and cards with search, filters, saved items, and comparison.
-- Review provenance and valuation, buy at a fixed price, or negotiate an offer.
-- Bid in a live auction with competing bids and a two-minute late-bid extension.
-- Create a listing through a category-specific form and manage seller offers.
-- Follow checkout, authentication, delivery, inspection, and dispute states.
+The frontend is organized around feature boundaries with explicit ownership of server-style, shared client and local UI state.
 
-Use **Reset demo** in the footer to restore the sample data. See [Demo and testing](docs/QA.md) for walkthroughs.
+- **TanStack Query** manages listings, auctions, offers, transactions and notifications.
+- **Zustand** stores lightweight shared UI state such as saved listings and comparison selections.
+- **React Hook Form + Zod** handle seller, checkout and offer forms.
+- Feature adapters isolate UI code from the browser-local marketplace simulation.
+- Simulated auction events demonstrate versioned realtime updates without pretending to provide a production WebSocket backend.
+
+See [Architecture](docs/ARCHITECTURE.md) for implementation details and the proposed production mapping.
+
+## Prototype boundaries
+
+This repository contains a frontend product prototype, not a production marketplace.
+
+All commercial interactions are simulated in the browser. There is no live Laravel backend, user authentication service, payment processor, KYC provider, collectible-authentication service or shipping integration.
+
+The mock services represent marketplace behaviour and intended frontend contracts; they are not a security boundary.
+
+Submitted seller listings remain pending review and are not automatically approved for purchase.
+
+## Testing
+
+Automated checks cover:
+
+- domain and category validation
+- bid concurrency and idempotency behaviour
+- offer version handling
+- listing reservation
+- auction extension and settlement
+- transaction transitions and disputes
+- production TypeScript builds
+- the three primary browser journeys
+- desktop and mobile viewports
+
+See [Demo and testing](docs/QA.md) for walkthroughs and manual QA guidance.
 
 ## Deployment
 
-Import the repository into Vercel. The included `vercel.json` uses `npm run build` and serves `dist`.
+The application builds to a static `dist` bundle and uses hash routing for static hosting.
 
-Hash routing supports static hosting without route rewrites. A manual GitHub Pages workflow is also included; it sets `VITE_BASE_PATH` for repository sites. The checks workflow runs unit tests, the build, and browser tests on pushes and pull requests.
+Configuration is included for:
 
-## Documentation
+- Vercel
+- GitHub Pages
 
-- [Architecture](docs/ARCHITECTURE.md)
-- [Demo and testing](docs/QA.md)
-- [Image sources](docs/ASSETS.md)
+The repository's checks workflow runs tests, the production build and browser journeys on pushes and pull requests.
 
-## Prototype scope
+Once deployed, the public URL is listed at the top of this README.
 
-Data, bids, payments, and fulfilment are simulated in the browser. There is no live backend, payment provider, or authentication service. Sample values and verification details are illustrative.
+## Sample content
+
+The Charizard example uses the **Unlimited** Base Set edition to match the supplied artwork.
+
+Prices, grades, certificates, conditions, ratings, offers and comparable sales are illustrative.
+
+Atlas Collect is a product concept and is not affiliated with or endorsed by the brands depicted in the prototype.
+
+Image attribution and source details are documented in [Image sources](docs/ASSETS.md).

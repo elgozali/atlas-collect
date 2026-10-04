@@ -25,7 +25,7 @@ Use **Reset demo** in the footer before each walkthrough. All actions use sample
 
 1. Open **Sell** and select a watch or trading card.
 2. Use **Use sample details** to populate the category fields.
-3. Enter a sample private identifier, such as `DEMO1234`.
+3. Enter a fictional private identifier such as `DEMO1234`. Do not use real serial, identity or payment information.
 4. Use **Use demo image** or upload a JPEG, PNG, or WebP image.
 5. Review the valuation, choose sale settings, and continue to review.
 6. Submit the listing. It appears in the seller dashboard with verification pending.
