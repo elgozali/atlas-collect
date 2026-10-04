@@ -16,7 +16,7 @@ async function createListing(
     id: crypto.randomUUID(),
     status: "review",
     verified: false,
-    seller: "Sara M.",
+    seller: "Moe Elgozali",
   };
   database.listings.unshift(collectible);
   addNotification(

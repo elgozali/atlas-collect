@@ -49,7 +49,7 @@ export default function SellerDashboard() {
         />
       </div>
     );
-  const owned = listings.data?.filter((l) => l.seller === "Sara M.") || [];
+  const owned = listings.data?.filter((l) => l.seller === "Moe Elgozali") || [];
   const activeOffers =
     offers.data?.filter((o) => ["pending", "countered"].includes(o.status)) ||
     [];

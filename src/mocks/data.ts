@@ -15,7 +15,7 @@ export const seeds: Listing[] = [
     sale: "fixed",
     status: "active",
     verified: true,
-    seller: "Sara M.",
+    seller: "Moe Elgozali",
     attributes: {
       Reference: "126610LN",
       Year: "2022",
@@ -40,7 +40,7 @@ export const seeds: Listing[] = [
     sale: "fixed",
     status: "active",
     verified: true,
-    seller: "Sara M.",
+    seller: "Moe Elgozali",
     attributes: {
       Reference: "310.30.42.50.01.002",
       Year: "2023",
@@ -91,7 +91,7 @@ export const seeds: Listing[] = [
     sale: "fixed",
     status: "active",
     verified: true,
-    seller: "Sara M.",
+    seller: "Moe Elgozali",
     attributes: {
       Franchise: "Pokémon",
       Set: "Base Set",
