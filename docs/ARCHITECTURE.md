@@ -6,30 +6,32 @@ Marketplace operations run through a browser-local simulation. There is no live 
 
 ## Frontend structure
 
-| Folder | Responsibility |
-| --- | --- |
-| `src/app` | App composition, shared layout and demo reset |
-| `src/providers` | Theme, TanStack Query and router providers |
-| `src/router` | Lazy routes, loading/error boundaries and navigation effects |
-| `src/pages` | Route entry components |
-| `src/features` | Discovery, listings, auctions, offers, seller, transactions and notifications |
-| `src/components` | Reusable cross-feature UI |
-| `src/shared` | Shared UI state and realtime subscription adapter/types |
-| `src/utils` | Asset paths, AED prices and Dubai date formatting |
-| `src/styles` | Global SCSS foundations and shared style utilities |
-| `src/mocks` | Seed data, persistence, simulated services/events and command tests |
+| Folder           | Responsibility                                                                |
+| ---------------- | ----------------------------------------------------------------------------- |
+| `src/app`        | App composition, shared layout and demo reset                                 |
+| `src/providers`  | Theme, snackbar, TanStack Query and router providers                          |
+| `src/router`     | Lazy routes, loading/error boundaries and navigation effects                  |
+| `src/pages`      | Route entry components                                                        |
+| `src/features`   | Discovery, listings, auctions, offers, seller, transactions and notifications |
+| `src/components` | Reusable cross-feature UI                                                     |
+| `src/shared`     | Shared UI state and realtime subscription adapter/types                       |
+| `src/utils`      | Asset paths, AED prices and Dubai date formatting                             |
+| `src/styles`     | Global SCSS foundations and shared style utilities                            |
+| `src/mocks`      | Seed data, persistence, simulated services/events and command tests           |
 
 Features expose selected components, hooks and types through `index.ts` entry points, with supporting services, schemas and styles colocated where needed.
 
 ## State ownership
 
 - **TanStack Query** manages listings, the demo auction (including bids), offers, transactions and notifications. Mutations update or invalidate caches.
-- **Zustand** stores saved listing IDs and comparison selections (up to three), persisted in `localStorage`.
+- **Zustand** persists saved listing IDs in `localStorage`. Comparison selections (up to three) and snackbar messages stay in memory.
 - **React Hook Form + Zod** handle seller drafts, checkout delivery/consent fields and offer amounts. Other action inputs use local state.
 - **URL state** stores browse category and search parameters (`category`, `q`) inside hash routes.
 - **Local component state** handles other filters, sorting, dialogs, galleries and wizard steps.
 
 The demo database persists in `localStorage`, with an in-memory fallback if storage is unavailable. Seller drafts are saved to `sessionStorage` through the wizard's save/step actions. Neither storage mechanism is a security boundary.
+
+Header search drafts and comparison selections clear on navigation and reload. A shared MUI snackbar queue handles action success and errors across routes; field validation and transaction status remain inline.
 
 There is no implemented cross-tab or cross-device synchronization.
 

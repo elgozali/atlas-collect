@@ -2,9 +2,8 @@ import s from "./SellerDashboard.module.scss";
 import featureStyles from "../../seller.module.scss";
 import common from "../../../../styles/common.module.scss";
 import { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-  Alert,
   Button,
   Chip,
   Dialog,
@@ -26,7 +25,6 @@ export default function SellerDashboard() {
   const listings = useListings();
   const offers = useOffers();
   const transactions = useTransactions();
-  const [params] = useSearchParams();
   const [counter, setCounter] = useState<Offer | null>(null);
   const [amount, setAmount] = useState(44000);
   const action = useOfferAction(() => setCounter(null));
@@ -70,12 +68,6 @@ export default function SellerDashboard() {
           </Button>
         }
       />
-      {params.has("submitted") && (
-        <Alert severity="success">
-          Listing submitted. It is visible in your studio while verification is
-          pending.
-        </Alert>
-      )}
       <div className={featureStyles.stats}>
         {[
           [
@@ -206,9 +198,6 @@ export default function SellerDashboard() {
               <p>New offers will appear here.</p>
             </div>
           )}
-          {action.error && (
-            <Alert severity="error">{action.error.message}</Alert>
-          )}
         </section>
       </div>
       <Dialog
@@ -242,9 +231,6 @@ export default function SellerDashboard() {
             </Button>
             <Button onClick={() => setCounter(null)}>Cancel</Button>
           </div>
-          {action.error && (
-            <Alert severity="error">{action.error.message}</Alert>
-          )}
         </DialogContent>
       </Dialog>
     </div>

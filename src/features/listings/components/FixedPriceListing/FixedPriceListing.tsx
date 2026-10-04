@@ -4,7 +4,7 @@ import common from "../../../../styles/common.module.scss";
 import featureStyles from "../../listing.module.scss";
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Alert, Button, Dialog, IconButton } from "@mui/material";
+import { Button, Dialog, IconButton } from "@mui/material";
 import { ArrowBack, ArrowForward, Close, ZoomIn } from "@mui/icons-material";
 import { useListing } from "../../hooks/useListing";
 import { usePurchase } from "../../hooks/usePurchase";
@@ -135,7 +135,6 @@ export default function FixedPriceListing() {
               Make an offer
             </Button>
           </div>
-          {buy.error && <Alert severity="error">{buy.error.message}</Alert>}
           <Protection />
           <div className={featureStyles.sellerMini}>
             <span className={common.avatar}>{item.seller.slice(0, 1)}</span>

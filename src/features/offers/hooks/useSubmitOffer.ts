@@ -10,6 +10,10 @@ export function useSubmitOffer(
 ) {
   const client = useQueryClient();
   return useMutation({
+    meta: {
+      successMessage:
+        current && editing ? "Counteroffer sent." : "Offer sent to the seller.",
+    },
     mutationFn: async ({ amount }: { amount: number }) => {
       if (current && editing)
         return (

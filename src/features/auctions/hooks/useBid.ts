@@ -9,6 +9,7 @@ export function useBid(
 ) {
   const client = useQueryClient();
   return useMutation({
+    meta: { successMessage: "Bid accepted. You are the highest bidder." },
     mutationFn: () => auctionsApi.bid(amount, crypto.randomUUID()),
     onSuccess: (a) => {
       client.setQueryData(["auction", id], a);

@@ -1,3 +1,4 @@
+import { showSnackbar } from "../../../../shared/snackbar/service";
 import classNames from "classnames";
 import s from "./SellerListing.module.scss";
 import featureStyles from "../../seller.module.scss";
@@ -61,8 +62,6 @@ export default function SellerListing() {
   const [category, setCategory] = useState<Category>(
     () => readDraft().category,
   );
-  const [mediaError, setMediaError] = useState("");
-  const [draftSaved, setDraftSaved] = useState(false);
   const navigate = useNavigate();
   const form = useForm<Draft>({
     resolver: zodResolver(draftSchema(category)),
@@ -94,16 +93,17 @@ export default function SellerListing() {
       reserve: c === "watches" ? 43000 : 25000,
     });
   };
-  const save = () => {
+  const save = (notify = false) => {
     try {
       sessionStorage.setItem(
         "atlas-draft-v1",
         JSON.stringify(form.getValues()),
       );
-      setDraftSaved(true);
+      if (notify) showSnackbar("Draft saved in this browser session.");
     } catch {
-      setMediaError(
+      showSnackbar(
         "Draft storage is unavailable in this browser. Keep this tab open.",
+        "error",
       );
     }
   };
@@ -124,9 +124,8 @@ export default function SellerListing() {
       save();
     }
   };
-  const submit = useSubmitListing(() => navigate("/seller?submitted=1"));
+  const submit = useSubmitListing(() => navigate("/seller"));
   const upload = async (files: FileList | null) => {
-    setMediaError("");
     if (!files) return;
     const selected = Array.from(files);
     if (
@@ -136,27 +135,34 @@ export default function SellerListing() {
           f.size > 2000000,
       )
     ) {
-      setMediaError("Use JPG, PNG or WebP images under 2 MB each.");
+      showSnackbar("Use JPG, PNG or WebP images under 2 MB each.", "error");
       return;
     }
     if (values.media.length + selected.length > 4) {
-      setMediaError("Add up to four images.");
+      showSnackbar("Add up to four images.", "error");
       return;
     }
-    const images = await Promise.all(
-      selected.map(
-        (file) =>
-          new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(String(reader.result));
-            reader.onerror = () => reject(new Error("Could not read image."));
-            reader.readAsDataURL(file);
-          }),
-      ),
-    );
-    form.setValue("media", [...values.media, ...images], {
-      shouldValidate: true,
-    });
+    try {
+      const images = await Promise.all(
+        selected.map(
+          (file) =>
+            new Promise<string>((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(String(reader.result));
+              reader.onerror = () => reject(new Error("Could not read image."));
+              reader.readAsDataURL(file);
+            }),
+        ),
+      );
+      form.setValue("media", [...values.media, ...images], {
+        shouldValidate: true,
+      });
+    } catch {
+      showSnackbar(
+        "Could not read the image. Please try another file.",
+        "error",
+      );
+    }
   };
   return (
     <div className={s.root}>
@@ -164,16 +170,11 @@ export default function SellerListing() {
         title="Sell a collectible."
         description="A considered process for objects that deserve one."
         action={
-          <Button variant="outlined" onClick={save}>
+          <Button variant="outlined" onClick={() => save(true)}>
             Save draft
           </Button>
         }
       />
-      {draftSaved && (
-        <Alert severity="success" onClose={() => setDraftSaved(false)}>
-          Draft saved in this browser session.
-        </Alert>
-      )}
       <div className={featureStyles.wizardProgress}>
         <Stepper activeStep={step} alternativeLabel>
           {steps.map((s) => (
@@ -344,9 +345,7 @@ export default function SellerListing() {
                     accept="image/jpeg,image/png,image/webp"
                     multiple
                     onChange={(e) => {
-                      upload(e.target.files).catch(() =>
-                        setMediaError("Could not read the image."),
-                      );
+                      void upload(e.target.files);
                       e.target.value = "";
                     }}
                   />
@@ -358,7 +357,11 @@ export default function SellerListing() {
                 onClick={() =>
                   form.setValue(
                     "media",
-                    [category === "watches" ? "rolex.jpg" : "charizard.png"],
+                    [
+                      category === "watches"
+                        ? "rolex.jpg"
+                        : "charizard-psa9.webp",
+                    ],
                     { shouldValidate: true },
                   )
                 }
@@ -390,7 +393,6 @@ export default function SellerListing() {
                   {form.formState.errors.media.message}
                 </Alert>
               )}
-              {mediaError && <Alert severity="error">{mediaError}</Alert>}
             </>
           )}
           {step === 4 && (
@@ -510,9 +512,6 @@ export default function SellerListing() {
                 </Alert>
               )}
             </>
-          )}
-          {submit.error && (
-            <Alert severity="error">{submit.error.message}</Alert>
           )}
           <div className={featureStyles.wizardActions}>
             <Button

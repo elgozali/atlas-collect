@@ -8,6 +8,7 @@ export function usePurchase(
 ) {
   const client = useQueryClient();
   return useMutation({
+    meta: { successMessage: "Collectible reserved. Complete your purchase." },
     mutationFn: () => listingsApi.purchase(id, crypto.randomUUID()),
     onSuccess: (t) => {
       client.invalidateQueries({ queryKey: ["listing", id] });

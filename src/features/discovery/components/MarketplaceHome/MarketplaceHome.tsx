@@ -132,7 +132,7 @@ export default function MarketplaceHome() {
             Discover graded collectibles <ArrowForward />
           </p>
           <img
-            src={asset("charizard.png")}
+            src={asset("charizard-psa9.webp")}
             alt="Pokémon Charizard collectible card"
             loading="lazy"
           />

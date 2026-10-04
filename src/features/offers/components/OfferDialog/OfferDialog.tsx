@@ -151,11 +151,6 @@ export function OfferDialog({
             </div>
           </form>
         )}
-        {(submit.error || action.error) && (
-          <Alert severity="error">
-            {(submit.error || action.error)?.message}
-          </Alert>
-        )}
         <p className={common.subtle}>
           An accepted offer reserves the item. Payment and authentication follow
           through Atlas Protected.

@@ -1,0 +1,14 @@
+.root:global(.MuiSnackbar-root) {
+  width: min(480px, calc(100vw - 32px));
+}
+.message {
+  width: 100%;
+  align-items: center;
+}
+@media (max-width: 599px) {
+  .root:global(.MuiSnackbar-root) {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+}

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SnackbarProvider } from "./SnackbarProvider";
 import { ThemeProvider } from "./ThemeProvider";
 import { QueryProvider } from "./QueryProvider";
 import { RouterProvider } from "./RouterProvider";
@@ -6,9 +7,11 @@ import { RouterProvider } from "./RouterProvider";
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
-      <QueryProvider>
-        <RouterProvider>{children}</RouterProvider>
-      </QueryProvider>
+      <SnackbarProvider>
+        <QueryProvider>
+          <RouterProvider>{children}</RouterProvider>
+        </QueryProvider>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

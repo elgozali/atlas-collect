@@ -141,9 +141,6 @@ export default function TransactionTimeline() {
               released in the product concept.
             </Alert>
           )}
-          {action.error && (
-            <Alert severity="error">{action.error.message}</Alert>
-          )}
         </section>
         <aside>
           <div className={featureStyles.orderSummary}>
@@ -247,9 +244,6 @@ export default function TransactionTimeline() {
             </Button>
             <Button onClick={() => setOpen(false)}>Cancel</Button>
           </div>
-          {action.error && (
-            <Alert severity="error">{action.error.message}</Alert>
-          )}
         </DialogContent>
       </Dialog>
     </div>

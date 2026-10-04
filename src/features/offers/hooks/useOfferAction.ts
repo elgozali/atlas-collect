@@ -1,3 +1,4 @@
+import { showSnackbar } from "../../../shared/snackbar/service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { offersApi } from "../services/offersService";
 import type { OfferActionInput } from "../types/OfferActionInput";
@@ -10,7 +11,14 @@ export function useOfferAction(
   return useMutation({
     mutationFn: ({ offer, type, amount, actor }: OfferActionInput) =>
       offersApi.offerAction(offer.id, offer.version, type, amount, actor),
-    onSuccess: (result) => {
+    onSuccess: (result, { type }) => {
+      showSnackbar(
+        type === "accept"
+          ? "Offer accepted."
+          : type === "counter"
+            ? "Counteroffer sent."
+            : "Offer declined.",
+      );
       for (const key of ["offers", "listings", "transactions"])
         client.invalidateQueries({ queryKey: [key] });
       onSuccess(result);

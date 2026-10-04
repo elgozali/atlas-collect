@@ -1,8 +1,8 @@
 import featureStyles from "../../discovery.module.scss";
 import s from "./MarketplaceBrowse.module.scss";
 import common from "../../../../styles/common.module.scss";
-import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import {
   Button,
   TextField,
@@ -26,6 +26,7 @@ import { money } from "../../../../utils/formatters";
 import { useUI } from "../../../../shared/store";
 
 export default function MarketplaceBrowse() {
+  const location = useLocation();
   const [params, setParams] = useSearchParams();
   const category = params.get("category") || "all";
   const search = params.get("q") || "";
@@ -36,6 +37,7 @@ export default function MarketplaceBrowse() {
   const [savedOnly, setSavedOnly] = useState(false);
   const [filters, setFilters] = useState(false);
   const [compareOpen, setCompareOpen] = useState(false);
+  useEffect(() => setCompareOpen(false), [location.key]);
   const saved = useUI((s) => s.saved);
   const compare = useUI((s) => s.compare);
   const toggleCompare = useUI((s) => s.toggleCompare);

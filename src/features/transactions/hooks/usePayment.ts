@@ -5,6 +5,7 @@ import type { CheckoutValues } from "../types/CheckoutValues";
 export function usePayment(id: string) {
   const client = useQueryClient();
   return useMutation({
+    meta: { successMessage: "Payment secured. Your transaction has started." },
     mutationFn: (v: CheckoutValues) =>
       transactionsApi.pay(id, `${v.name}, ${v.address}, ${v.city}`),
     onSuccess: (t) => {

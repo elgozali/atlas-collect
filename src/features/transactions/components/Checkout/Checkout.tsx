@@ -143,7 +143,6 @@ export default function Checkout() {
               ? "Securing payment…"
               : `Simulate secure payment · ${money(t.agreedPrice + fee + 150)}`}
           </Button>
-          {pay.error && <Alert severity="error">{pay.error.message}</Alert>}
         </form>
         <aside className={featureStyles.orderSummary}>
           <div className={featureStyles.orderItem}>

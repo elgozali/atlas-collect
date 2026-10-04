@@ -1,3 +1,4 @@
+import { showSnackbar } from "../../shared/snackbar/service";
 import s from "./AppLayout.module.scss";
 import common from "../../styles/common.module.scss";
 import { NotificationsDrawer } from "../../features/notifications";
@@ -50,7 +51,9 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const notes = useNotifications();
   useEffect(() => {
     setMenu(false);
-  }, [location.pathname, location.search]);
+    setSearch(false);
+    setTerm("");
+  }, [location.key]);
   const nav = (
     <>
       <NavLink to="/marketplace">Marketplace</NavLink>
@@ -138,7 +141,14 @@ export function AppLayout({ children }: { children: ReactNode }) {
         open={notifications}
         onClose={() => setNotifications(false)}
       />
-      <Dialog open={search} onClose={() => setSearch(false)} fullWidth>
+      <Dialog
+        open={search}
+        onClose={() => {
+          setSearch(false);
+          setTerm("");
+        }}
+        fullWidth
+      >
         <DialogTitle>Find something exceptional.</DialogTitle>
         <DialogContent>
           <form
@@ -147,11 +157,13 @@ export function AppLayout({ children }: { children: ReactNode }) {
               e.preventDefault();
               navigate(`/marketplace?q=${encodeURIComponent(term)}`);
               setSearch(false);
+              setTerm("");
             }}
           >
             <TextField
               autoFocus
               label="Search watches or trading cards"
+              autoComplete="off"
               value={term}
               onChange={(e) => setTerm(e.target.value)}
             />
@@ -179,6 +191,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 queryClient.clear();
                 setReset(false);
                 navigate("/");
+                showSnackbar("Demo reset.");
               }}
             >
               Reset demo

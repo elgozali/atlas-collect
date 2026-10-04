@@ -114,11 +114,11 @@ export default function LiveAuction() {
           <div className={classNames(common.galleryMain, common.cards)}>
             <img
               src={asset(item.image)}
-              alt="Pokémon Base Set Charizard card, unlimited edition"
+              alt="PSA 9 graded Pokémon Base Set Charizard, Unlimited edition"
             />
           </div>
           <p className={common.imageNote}>
-            Illustrative card artwork. Sample certification and valuation data.
+            PSA-graded card reference photo. Sample listing and valuation data.
           </p>
         </div>
         <div className={featureStyles.auctionInfo}>
@@ -201,9 +201,6 @@ export default function LiveAuction() {
                 </Button>
               </form>
             )}
-            {!closed && bid.error && (
-              <Alert severity="error">{bid.error.message}</Alert>
-            )}
             <p className={common.subtle}>
               Bids are binding in the product concept. This prototype uses
               simulated realtime and no real money.
@@ -260,9 +257,6 @@ export default function LiveAuction() {
               Auto competitor: {auto ? "on" : "off"}
             </Button>
           </div>
-          {scenario.error && (
-            <Alert severity="error">{scenario.error.message}</Alert>
-          )}
         </div>
       </section>
     </div>
