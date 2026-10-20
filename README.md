@@ -78,6 +78,8 @@ Install the browser before running end-to-end tests:
 npx playwright install chromium
 ```
 
+`npm run test:e2e` builds the production app and starts a dedicated preview server on port **5190** before running the desktop and mobile journeys. No development server is needed.
+
 ## Architecture
 
 The frontend is organized around feature boundaries with explicit ownership of server-style, shared client and local UI state.
