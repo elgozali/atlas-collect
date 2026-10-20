@@ -136,3 +136,9 @@ Prices, grades, certificates, conditions, ratings, offers and comparable sales a
 Atlas Collect is a product concept and is not affiliated with or endorsed by the brands depicted in the prototype.
 
 Image attribution and source details are documented in [Image sources](docs/ASSETS.md).
+
+## Copyright
+
+© 2026 Moe Elgozali. All rights reserved.
+
+Third-party images, trademarks, and other assets belong to their respective owners.
