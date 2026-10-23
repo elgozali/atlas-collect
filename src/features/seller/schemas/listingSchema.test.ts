@@ -16,11 +16,41 @@ const draft = {
 describe("Category-driven listing validation", () => {
   it("accepts a complete watch draft", () =>
     expect(draftSchema("watches").safeParse(draft).success).toBe(true));
+  it.each(["1500", "1700", "1799", "1800", "1899", "1900", "2000"])(
+    "accepts watch year %s",
+    (year) =>
+      expect(
+        draftSchema("watches").safeParse({
+          ...draft,
+          details: { ...draft.details, year },
+        }).success,
+      ).toBe(true),
+  );
+  it.each(["", "999", "18000", "18ab", "0000", "0180", "-1800", "1800.5"])(
+    "rejects invalid watch year %s",
+    (year) =>
+      expect(
+        draftSchema("watches").safeParse({
+          ...draft,
+          details: { ...draft.details, year },
+        }).success,
+      ).toBe(false),
+  );
+  it("accepts the current watch year", () =>
+    expect(
+      draftSchema("watches").safeParse({
+        ...draft,
+        details: { ...draft.details, year: String(new Date().getFullYear()) },
+      }).success,
+    ).toBe(true));
   it("rejects a future watch year", () =>
     expect(
       draftSchema("watches").safeParse({
         ...draft,
-        details: { ...draft.details, year: "2027" },
+        details: {
+          ...draft.details,
+          year: String(new Date().getFullYear() + 1),
+        },
       }).success,
     ).toBe(false));
   it("rejects card drafts without category-specific details", () =>

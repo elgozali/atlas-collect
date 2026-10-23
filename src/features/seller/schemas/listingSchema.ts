@@ -71,8 +71,11 @@ export function draftSchema(category: Category) {
       f.key === "year"
         ? z
             .string()
-            .regex(/^(19|20)\d{2}$/, "Enter a four-digit year.")
-            .refine((v) => Number(v) <= 2026, "Year cannot be in the future.")
+            .regex(/^[1-9]\d{3}$/, "Enter a four-digit year.")
+            .refine(
+              (v) => Number(v) <= new Date().getFullYear(),
+              "Year cannot be in the future.",
+            )
         : z.string().trim().min(1, `${f.label} is required.`),
     ]),
   );
